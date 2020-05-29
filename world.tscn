@@ -1,0 +1,306 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://rock.tscn" type="PackedScene" id=2]
+[ext_resource path="res://score.gd" type="Script" id=3]
+[ext_resource path="res://montserrat.otf" type="DynamicFontData" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 44
+font_data = ExtResource( 4 )
+
+[node name="World" type="Node2D"]
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="0" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 72, 72 )
+
+[node name="1" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 264, 216 )
+
+[node name="2" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 72, 456 )
+
+[node name="3" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 360, 552 )
+
+[node name="4" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 840, 360 )
+
+[node name="5" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 456, 264 )
+
+[node name="6" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 696, 264 )
+
+[node name="7" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 744, 456 )
+
+[node name="8" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 312, 456 )
+
+[node name="9" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 696, 72 )
+
+[node name="10" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 504, 72 )
+
+[node name="11" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 936, 72 )
+
+[node name="Rocks" type="Node2D" parent="."]
+
+[node name="Rock0" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 120, 72 )
+
+[node name="Rock1" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 264, 168 )
+
+[node name="Rock2" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 264, 120 )
+
+[node name="Rock3" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 216, 72 )
+
+[node name="Rock4" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 264, 72 )
+
+[node name="Rock5" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 312, 72 )
+
+[node name="Rock6" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 552, 168 )
+
+[node name="Rock7" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 600, 168 )
+
+[node name="Rock8" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 552, 216 )
+
+[node name="Rock9" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 264, 312 )
+
+[node name="Rock10" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 120, 360 )
+
+[node name="Rock11" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 168, 360 )
+
+[node name="Rock12" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 216, 360 )
+
+[node name="Rock13" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 120, 264 )
+
+[node name="Rock14" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 168, 216 )
+
+[node name="Rock15" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 72, 360 )
+
+[node name="Rock16" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 72, 312 )
+
+[node name="Rock17" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 72, 264 )
+
+[node name="Rock18" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 360, 360 )
+
+[node name="Rock19" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 408, 360 )
+
+[node name="Rock20" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 504, 360 )
+
+[node name="Rock21" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 600, 360 )
+
+[node name="Rock22" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 648, 360 )
+
+[node name="Rock23" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 504, 456 )
+
+[node name="Rock24" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 552, 456 )
+
+[node name="Rock25" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 552, 408 )
+
+[node name="Rock26" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 360, 456 )
+
+[node name="Rock27" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 360, 504 )
+
+[node name="Rock28" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 264, 504 )
+
+[node name="Rock29" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 264, 552 )
+
+[node name="Rock30" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 168, 456 )
+
+[node name="Rock31" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 168, 504 )
+
+[node name="Rock32" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 72, 552 )
+
+[node name="Rock33" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 120, 552 )
+
+[node name="Rock34" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 504, 552 )
+
+[node name="Rock35" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 600, 552 )
+
+[node name="Rock36" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 648, 552 )
+
+[node name="Rock37" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 648, 504 )
+
+[node name="Rock38" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 456, 216 )
+
+[node name="Rock39" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 360, 216 )
+
+[node name="Rock40" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 360, 168 )
+
+[node name="Rock41" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 456, 120 )
+
+[node name="Rock42" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 456, 408 )
+
+[node name="Rock43" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 456, 456 )
+
+[node name="Rock44" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 456, 504 )
+
+[node name="Rock45" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 600, 264 )
+
+[node name="Rock46" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 600, 72 )
+
+[node name="Rock47" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 408, 72 )
+
+[node name="Rock48" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 792, 168 )
+
+[node name="Rock49" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 744, 168 )
+
+[node name="Rock50" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 744, 264 )
+
+[node name="Rock51" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 792, 264 )
+
+[node name="Rock52" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 744, 360 )
+
+[node name="Rock53" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 744, 408 )
+
+[node name="Rock54" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 792, 552 )
+
+[node name="Rock55" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 840, 552 )
+
+[node name="Rock56" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 840, 504 )
+
+[node name="Rock57" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 840, 312 )
+
+[node name="Rock58" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 840, 264 )
+
+[node name="Rock59" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 840, 216 )
+
+[node name="Rock60" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 840, 120 )
+
+[node name="Rock61" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 792, 72 )
+
+[node name="Rock62" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 840, 72 )
+
+[node name="Rock63" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 936, 216 )
+
+[node name="Rock64" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 936, 264 )
+
+[node name="Rock65" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 936, 408 )
+
+[node name="Rock66" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 888, 456 )
+
+[node name="Rock67" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 936, 456 )
+
+[node name="Rock68" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 792, 456 )
+
+[node name="Rock69" parent="Rocks" instance=ExtResource( 2 )]
+position = Vector2( 840, 456 )
+
+[node name="Players" type="Node2D" parent="."]
+
+[node name="Score" type="HBoxContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 40.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Winner" type="Label" parent="."]
+margin_right = 1031.0
+margin_bottom = 617.0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+custom_constants/shadow_as_outline = 1
+text = "THE WINNER IS:
+YOU"
+align = 1
+valign = 1
+
+[node name="ExitGame" type="Button" parent="Winner"]
+margin_left = 384.0
+margin_top = 408.0
+margin_right = 649.0
+margin_bottom = 469.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+custom_fonts/font = SubResource( 1 )
+text = "EXIT GAME"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2( 512, 300 )
+current = true
+[connection signal="pressed" from="Winner/ExitGame" to="Score" method="_on_exit_game_pressed"]
