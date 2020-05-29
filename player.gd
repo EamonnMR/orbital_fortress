@@ -2,6 +2,10 @@ extends KinematicBody2D
 
 const MOTION_SPEED = 90.0
 
+export var max_speed = 120;
+export var accel = 15;
+export var turn_rate = 1;
+
 var velocity = Vector2()
 
 puppet var puppet_pos = Vector2()
@@ -19,18 +23,24 @@ sync func setup_bomb(bomb_name, pos, by_who):
 	# No need to set network master to bomb, will be owned by server by default
 	get_node("../..").add_child(bomb)
 
-var current_anim = ""
 var prev_bombing = false
 var bomb_index = 0
 
+func _limit_speed():
+	if velocity.length() > max_speed:
+		velocity = Vector2(cos(velocity.angle()), sin(velocity.angle())) * max_speed
+
 func _physics_process(delta):
+	print(delta)
 	if is_network_master():
 		if Input.is_action_pressed("move_left"):
-			$sprite.rotation += 100
+			$sprite.rotation -= turn_rate * delta
 		if Input.is_action_pressed("move_right"):
-			$sprite.rotation -= 100
+			$sprite.rotation += turn_rate * delta
 		if Input.is_action_pressed("move_up"):
-			velocity += Vector2(0, -1).rotated($sprite.rotation)
+			velocity += Vector2(0, -1 * accel).rotated($sprite.rotation)
+			
+		_limit_speed()
 
 		var bombing = Input.is_action_pressed("set_bomb")
 
