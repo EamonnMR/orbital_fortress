@@ -7,6 +7,7 @@ export var accel = 15;
 export var turn_rate = 1;
 
 var velocity = Vector2()
+var can_shoot = true
 
 puppet var puppet_pos = Vector2()
 puppet var puppet_velocity = Vector2()
@@ -30,38 +31,77 @@ func _limit_speed():
 	if velocity.length() > max_speed:
 		velocity = Vector2(cos(velocity.angle()), sin(velocity.angle())) * max_speed
 
-func _physics_process(delta):
-	print(delta)
-	if is_network_master():
-		if Input.is_action_pressed("move_left"):
-			$sprite.rotation -= turn_rate * delta
-		if Input.is_action_pressed("move_right"):
-			$sprite.rotation += turn_rate * delta
-		if Input.is_action_pressed("move_up"):
-			velocity += Vector2(0, -1 * accel).rotated($sprite.rotation)
-			
-		_limit_speed()
+func _facing():
+	return fmod((2 * PI) + fmod($sprite.rotation, PI *2), PI *2)
 
-		var bombing = Input.is_action_pressed("set_bomb")
-
-		if stunned:
-			bombing = false
-			velocity = Vector2()
-
-		if bombing and not prev_bombing:
-			var bomb_name = get_name() + str(bomb_index)
-			var bomb_pos = position
-			rpc("setup_bomb", bomb_name, bomb_pos, get_tree().get_network_unique_id())
-
-		prev_bombing = bombing
+func _handle_shooting():
+	if(
+		Input.is_key_pressed(KEY_SPACE) and can_shoot
+	):
+		print("trying to fire")
+		can_shoot = false
+		$reload_timer.start()
 		
+		var bomb_name = get_name() + str(bomb_index)
+		var bomb_pos = position
+		rpc("setup_bomb", bomb_name, bomb_pos, get_tree().get_network_unique_id())
+
+		
+
+func _rotate_to_cancel_velocity():
+	# TODO: Debug this so it works
+	var facing = _facing()
+	var ideal_facing = velocity.angle() - PI
+	print("Facing")
+	print(facing)
+	print("ideal Facing")
+	print(ideal_facing)
+	var difference = fmod(ideal_facing - facing, 2 * PI)
+	print("difference")
+	print(difference)
+	print("Verdict")
+	if difference > 0:
+		print("right")
+		return 1
+	if difference < 0:
+		print("left")
+		return -1
+	print("None")
+	return 0
+	
+func _handle_movement(delta):
+	var rotation = 0
+	if Input.is_action_pressed("move_left"):
+		rotation = -1
+	if Input.is_action_pressed("move_right"):
+		rotation = 1
+	#if Input.is_action_pressed("move_down"):
+	#	#rotation = _rotate_to_cancel_velocity()
+
+	$sprite.rotation += rotation * turn_rate * delta
+
+	if Input.is_action_pressed("move_up"):
+		velocity += Vector2(0, -1 * accel).rotated($sprite.rotation)
+		
+func _push_vars_to_net():
 		rset("puppet_velocity", velocity)
 		rset("puppet_pos", position)
 		rset("puppet_rotation", $sprite.rotation)
+
+func _get_vars_from_net():
+	position = puppet_pos
+	velocity = puppet_velocity
+	$sprite.rotation = puppet_rotation
+
+func _physics_process(delta):
+	if is_network_master():
+
+		_handle_movement(delta)
+		_limit_speed()
+		_handle_shooting()
+		_push_vars_to_net()
 	else:
-		position = puppet_pos
-		velocity = puppet_velocity
-		$sprite.rotation = puppet_rotation
+		_get_vars_from_net()
 
 	move_and_slide(velocity)
 	if not is_network_master():
@@ -85,3 +125,7 @@ func _ready():
 
 	if (is_network_master()):
 		$Camera2D.make_current()
+
+
+func _on_reload_timer_timeout():
+	can_shoot = true
