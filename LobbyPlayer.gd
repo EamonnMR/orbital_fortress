@@ -1,4 +1,4 @@
-extends Node2D
+extends HBoxContainer
 
 var player = null
 
@@ -18,4 +18,4 @@ func _ready():
 
 func set_player(new_player):
 	player = new_player
-	$HBoxContainer/Label.text = new_player
+	# $HBoxContainer/Label.text = new_player
