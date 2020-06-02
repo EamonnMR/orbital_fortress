@@ -14,7 +14,6 @@ func _ready():
 		var desktop_path = OS.get_system_dir(0).replace("\\", "/").split("/")
 		$Connect/Name.text = desktop_path[desktop_path.size() - 2]
 
-
 func _on_host_pressed():
 	if $Connect/Name.text == "":
 		$Connect/ErrorLabel.text = "Invalid name!"
@@ -26,6 +25,7 @@ func _on_host_pressed():
 
 	var player_name = $Connect/Name.text
 	gamestate.host_game(player_name)
+	print("Started")
 	refresh_lobby()
 
 
@@ -74,15 +74,28 @@ func _on_game_error(errtxt):
 
 
 func refresh_lobby():
+	print("Refresh lobby")
 	var players = gamestate.get_player_list()
 	players.sort()
-	$Players/List.clear()
-	$Players/List.add_item(gamestate.get_player_name() + " (You)")
+	_clear_list()
+	_add_lobby_player(gamestate.get_player_name() + " (You)")
 	for p in players:
-		$Players/List.add_item(p)
+		_add_lobby_player(p)
 
 	$Players/Start.disabled = not get_tree().is_network_server()
 
 
 func _on_start_pressed():
 	gamestate.begin_game()
+	
+func _clear_list():
+	for n in $Players/List.get_children():
+		$Players/List.remove_child(n)
+		n.queue_free()
+
+func _add_lobby_player(player):
+	print("Add Lobby Player: " + player)
+	var lobby_player = preload("res://LobbyPlayer.tscn").instance()
+	
+	lobby_player.set_player(player)
+	$Players/List.add_child(lobby_player)
