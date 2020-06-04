@@ -6,11 +6,17 @@ const DEFAULT_PORT = 10567
 # Max number of players.
 const MAX_PEERS = 12
 
-# Name for my player.
 var player_name = "The Warrior"
 
-# Names for remote players in id:name format.
-var players = {}
+# Names for remote players in id:{name, id, ship_choice} format
+var players = {
+	-1: {
+		"name": player_name,
+		"ship_choice": 1,
+		"id": -1
+	}
+}
+var bots = {}  # TODO: Add bots
 var players_ready = []
 
 # Signals to let lobby GUI know what's going on.
@@ -30,7 +36,7 @@ func _player_connected(id):
 func _player_disconnected(id):
 	if has_node("/root/World"): # Game is in progress.
 		if get_tree().is_network_server():
-			emit_signal("game_error", "Player " + players[id] + " disconnected")
+			emit_signal("game_error", "Player " + players[id]["name"] + " disconnected")
 			end_game()
 	else: # Game is not in progress.
 		# Unregister this player.
@@ -59,15 +65,18 @@ func _connected_fail():
 
 remote func register_player(new_player_name):
 	var id = get_tree().get_rpc_sender_id()
-	print(id)
-	players[id] = new_player_name
+	players[id] = {"name": new_player_name, "ship_choice": 1, "id": id}
 	emit_signal("player_list_changed")
 
 
 func unregister_player(id):
 	players.erase(id)
 	emit_signal("player_list_changed")
-
+	
+func modify_player_attribute(player_id, attr, new_value):
+	# print("Is own player? " + player_id == get_tree().get_rpc_sender_id())
+	players[player_id][attr] = new_value
+	emit_signal("player_list_changed")
 
 remote func pre_start_game(spawn_points):
 	# Change scene.
@@ -76,10 +85,13 @@ remote func pre_start_game(spawn_points):
 
 	get_tree().get_root().get_node("Lobby").hide()
 
+	# TODO: Load a list of these
 	var player_scene = load("res://player.tscn")
 
 	for p_id in spawn_points:
 		var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position
+		
+		# TODO: Instance differently based on players[p_id]["ship_choice"]
 		var player = player_scene.instance()
 
 		player.set_name(str(p_id)) # Use unique ID as node name.
@@ -91,14 +103,15 @@ remote func pre_start_game(spawn_points):
 			player.set_player_name(player_name)
 		else:
 			# Otherwise set name from peer.
-			player.set_player_name(players[p_id])
+			player.set_player_name(players[p_id]["name"])
 
 		world.get_node("Players").add_child(player)
 
 	# Set up score.
-	world.get_node("Score").add_player(get_tree().get_network_unique_id(), player_name)
+	# TODO: Make the score node follow the camera / static
+
 	for pn in players:
-		world.get_node("Score").add_player(pn, players[pn])
+		world.get_node("Score").add_player(pn, players[pn]["name"])
 
 	if not get_tree().is_network_server():
 		# Tell server we are ready to start.
@@ -138,7 +151,10 @@ func join_game(ip, new_player_name):
 
 
 func get_player_list():
-	return players.values()
+	var names = []
+	for value in players.values():
+		names.append(value["name"])
+	return names
 
 
 func get_player_name():

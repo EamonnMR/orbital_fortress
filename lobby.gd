@@ -1,5 +1,14 @@
 extends Control
 
+# TODO: add a signal to the lobby player
+# That gets transmitted when they edit
+# an attribute. Connect it to a sync or
+# remote function on the gamestate which
+# checks to make sure it's from the right
+# peer ID, and if so, updates the players
+# list and (either way) updates the on-screen
+# list.
+
 func _ready():
 	# Called every time the node is added to the scene.
 	gamestate.connect("connection_failed", self, "_on_connection_failed")
@@ -25,7 +34,6 @@ func _on_host_pressed():
 
 	var player_name = $Connect/Name.text
 	gamestate.host_game(player_name)
-	print("Started")
 	refresh_lobby()
 
 
@@ -75,11 +83,10 @@ func _on_game_error(errtxt):
 
 func refresh_lobby():
 	print("Refresh lobby")
-	var players = gamestate.get_player_list()
-	players.sort()
+	var players = gamestate.players
 	_clear_list()
-	_add_lobby_player(gamestate.get_player_name() + " (You)")
-	for p in players:
+	print(players)
+	for p in players.values():
 		_add_lobby_player(p)
 
 	$Players/Start.disabled = not get_tree().is_network_server()
@@ -88,14 +95,27 @@ func refresh_lobby():
 func _on_start_pressed():
 	gamestate.begin_game()
 	
+func _on_add_bot_pressed():
+	pass
+	# TODO: gamestate.add_bot()
+	
+func _on_kick_player(player_id):
+	print("TODO: Remove player: " + player_id)
+	# TODO: gamestate.remove_player(id)
+
+func _on_update_player_config_in_lobby(player_id, attr, value):
+	gamestate.modify_player_attribute(player_id, attr, value)
+	
 func _clear_list():
 	for n in $Players/List.get_children():
 		$Players/List.remove_child(n)
 		n.queue_free()
 
 func _add_lobby_player(player):
-	print("Add Lobby Player: " + player)
+	print("Add Lobby Player: " + player["name"])
 	var lobby_player = preload("res://LobbyPlayer.tscn").instance()
-	
-	lobby_player.set_player(player)
 	$Players/List.add_child(lobby_player)
+	lobby_player.set_attributes(player, false)
+	print("Connecting list item changed to _on_update_player_config_in_lobby")
+	lobby_player.connect("list_item_changed", self, "_on_update_player_config_in_lobby")
+	lobby_player.connect("remove_player", self, "_on_kick_player")

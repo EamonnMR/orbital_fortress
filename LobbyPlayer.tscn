@@ -10,19 +10,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="."]
+[node name="name" type="Label" parent="."]
 margin_top = 13.0
 margin_right = 81.0
 margin_bottom = 27.0
 text = "Player Name"
 
-[node name="OptionButton" type="OptionButton" parent="."]
+[node name="ship_choice" type="OptionButton" parent="."]
 margin_left = 85.0
 margin_right = 175.0
 margin_bottom = 40.0
 text = "Ship Type"
 
-[node name="CheckButton" type="CheckButton" parent="."]
+[node name="is_bot" type="CheckButton" parent="."]
 margin_left = 179.0
 margin_right = 281.0
 margin_bottom = 40.0
@@ -30,10 +30,10 @@ disabled = true
 pressed = true
 text = "Bot"
 
-[node name="Button2" type="Button" parent="."]
+[node name="remove" type="Button" parent="."]
 margin_left = 285.0
 margin_right = 349.0
 margin_bottom = 40.0
 text = "Remove"
-
-[node name="LobbyPlayer" type="Node2D" parent="."]
+[connection signal="item_selected" from="ship_choice" to="." method="_on_ship_choice_item_selected"]
+[connection signal="pressed" from="remove" to="." method="_on_remove_pressed"]
