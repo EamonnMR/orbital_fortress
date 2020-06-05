@@ -23,6 +23,7 @@ margin_bottom = 40.0
 text = "Ship Type"
 
 [node name="is_bot" type="CheckButton" parent="."]
+visible = false
 margin_left = 179.0
 margin_right = 281.0
 margin_bottom = 40.0
@@ -31,6 +32,7 @@ pressed = true
 text = "Bot"
 
 [node name="remove" type="Button" parent="."]
+visible = false
 margin_left = 285.0
 margin_right = 349.0
 margin_bottom = 40.0

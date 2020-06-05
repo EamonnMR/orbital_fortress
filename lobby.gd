@@ -82,10 +82,10 @@ func _on_game_error(errtxt):
 
 
 func refresh_lobby():
-	print("Refresh lobby")
+	# print("Refresh lobby")
 	var players = gamestate.players
 	_clear_list()
-	print(players)
+	# print(players)
 	for p in players.values():
 		_add_lobby_player(p)
 
@@ -104,6 +104,7 @@ func _on_kick_player(player_id):
 	# TODO: gamestate.remove_player(id)
 
 func _on_update_player_config_in_lobby(player_id, attr, value):
+	print("_on_update_player_config_in_lobby")
 	gamestate.modify_player_attribute(player_id, attr, value)
 	
 func _clear_list():
@@ -112,10 +113,8 @@ func _clear_list():
 		n.queue_free()
 
 func _add_lobby_player(player):
-	print("Add Lobby Player: " + player["name"])
 	var lobby_player = preload("res://LobbyPlayer.tscn").instance()
 	$Players/List.add_child(lobby_player)
 	lobby_player.set_attributes(player, false)
-	print("Connecting list item changed to _on_update_player_config_in_lobby")
 	lobby_player.connect("list_item_changed", self, "_on_update_player_config_in_lobby")
 	lobby_player.connect("remove_player", self, "_on_kick_player")

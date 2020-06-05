@@ -48,6 +48,7 @@ size_flags_vertical = 2
 text = "START!"
 
 [node name="Add Bot" type="Button" parent="Players"]
+visible = false
 margin_left = 164.679
 margin_top = 305.973
 margin_right = 289.679

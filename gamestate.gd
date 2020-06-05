@@ -6,14 +6,16 @@ const DEFAULT_PORT = 10567
 # Max number of players.
 const MAX_PEERS = 12
 
+const HOST_ID = 1 # TODO: might simplify the code if we use 1 here, if 1 is always the ID of the server for RPC
+
 var player_name = "The Warrior"
 
 # Names for remote players in id:{name, id, ship_choice} format
 var players = {
-	-1: {
+	HOST_ID: {
 		"name": player_name,
 		"ship_choice": 1,
-		"id": -1
+		"id": HOST_ID
 	}
 }
 var bots = {}  # TODO: Add bots
@@ -73,11 +75,25 @@ func unregister_player(id):
 	players.erase(id)
 	emit_signal("player_list_changed")
 	
-func modify_player_attribute(player_id, attr, new_value):
-	# print("Is own player? " + player_id == get_tree().get_rpc_sender_id())
+sync func sync_modify_player_attribute(player_id, attr, new_value):
 	players[player_id][attr] = new_value
+	print("Player attribute modified!  ", players)
 	emit_signal("player_list_changed")
 
+	
+func modify_player_attribute(player_id, attr, new_value):
+	if attr == "id":
+		print("Cannot modify ID")
+		return
+	
+	print("Modify Player attribute")
+	
+	for p in players:
+		print("Sync for player", p)
+		if(p > 0):  # TODO: Maybe have a function that returns remote players?
+			rpc_id(p, "sync_modify_player_attribute", player_id, attr, new_value)
+	
+		
 remote func pre_start_game(spawn_points):
 	# Change scene.
 	var world = load("res://world.tscn").instance()
