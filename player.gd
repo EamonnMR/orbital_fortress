@@ -1,7 +1,5 @@
 extends KinematicBody2D
 
-const MOTION_SPEED = 90.0
-
 export var max_speed = 120;
 export var accel = 15;
 export var turn_rate = 1;
@@ -16,13 +14,15 @@ puppet var puppet_rotation = 0.0
 export var stunned = false
 
 # Use sync because it will be called everywhere
-sync func setup_bomb(bomb_name, pos, by_who):
-	var bomb = preload("res://bomb.tscn").instance()
-	bomb.set_name(bomb_name) # Ensure unique name for the bomb
-	bomb.position = pos
-	bomb.from_player = by_who
+
+sync func shoot(name, pos, direction, by_who):
+	var shot = preload("res://Shot.tscn").instance()
+	shot.set_name(name) # Ensure unique name for the bomb
+	shot.position = pos
+	shot.set_direction(direction)
+	shot.from_player = by_who
 	# No need to set network master to bomb, will be owned by server by default
-	get_node("../..").add_child(bomb)
+	get_node("../..").add_child(shot)
 
 var prev_bombing = false
 var bomb_index = 0
@@ -36,15 +36,13 @@ func _facing():
 
 func _handle_shooting():
 	if(
-		Input.is_key_pressed(KEY_SPACE) and can_shoot
+		can_shoot and Input.is_key_pressed(KEY_SPACE)
 	):
-		print("trying to fire")
 		can_shoot = false
 		$reload_timer.start()
 		
-		var bomb_name = get_name() + str(bomb_index)
-		var bomb_pos = position
-		rpc("setup_bomb", bomb_name, bomb_pos, get_tree().get_network_unique_id())
+		var name = get_name() + str(bomb_index)
+		rpc("shoot", name, position, $sprite.rotation, get_tree().get_network_unique_id())
 
 		
 
