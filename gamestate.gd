@@ -10,14 +10,10 @@ const HOST_ID = 1 # TODO: might simplify the code if we use 1 here, if 1 is alwa
 
 var player_name = "The Warrior"
 
+const DEFAULT_SHIP = 1
+
 # Names for remote players in id:{name, id, ship_choice} format
-var players = {
-	HOST_ID: {
-		"name": player_name,
-		"ship_choice": 1,
-		"id": HOST_ID
-	}
-}
+var players = {}
 var bots = {}  # TODO: Add bots
 var players_ready = []
 
@@ -30,8 +26,11 @@ signal game_error(what)
 
 # Callback from SceneTree.
 func _player_connected(id):
+	# From: Network peer connected
+	# Signal is triggered on each peer when the server is connected.
+	print("network_peer_connected: ", id)
 	# Registration of a client beings here, tell the connected player that we are here.
-	rpc_id(id, "register_player", player_name)
+	rpc_id(id, "register_player", _get_player_data())
 
 
 # Callback from SceneTree.
@@ -48,8 +47,12 @@ func _player_disconnected(id):
 # Callback from SceneTree, only for clients (not server).
 func _connected_ok():
 	# We just connected to a server
+	var id = get_tree().get_network_unique_id()
 	emit_signal("connection_succeeded")
 
+func _get_player_data():
+	print(players)
+	return players[get_tree().get_network_unique_id()]
 
 # Callback from SceneTree, only for clients (not server).
 func _server_disconnected():
@@ -65,9 +68,10 @@ func _connected_fail():
 
 # Lobby management functions.
 
-remote func register_player(new_player_name):
+remote func register_player(data):
 	var id = get_tree().get_rpc_sender_id()
-	players[id] = {"name": new_player_name, "ship_choice": 1, "id": id}
+	print("sender_id: ", id, "data['id']: ", data["id"])
+	_add_player_to_list(id, data["name"], data["ship_choice"])
 	emit_signal("player_list_changed")
 
 
@@ -158,12 +162,28 @@ func host_game(new_player_name):
 	host.create_server(DEFAULT_PORT, MAX_PEERS)
 	get_tree().set_network_peer(host)
 
+	# Add your own player to the game
+	_add_player_to_list(
+		get_tree().get_network_unique_id(),
+		new_player_name,
+		DEFAULT_SHIP
+	)
+
 
 func join_game(ip, new_player_name):
 	player_name = new_player_name
 	var client = NetworkedMultiplayerENet.new()
 	client.create_client(ip, DEFAULT_PORT)
 	get_tree().set_network_peer(client)
+	
+	_add_player_to_list(
+		get_tree().get_network_unique_id(),
+		new_player_name,
+		DEFAULT_SHIP
+	)
+	
+	var player_id = get_tree().get_network_unique_id()
+	print("get_network_unique_id: ", player_id)
 
 
 func get_player_list():
@@ -202,6 +222,8 @@ func end_game():
 	emit_signal("game_ended")
 	players.clear()
 
+func _add_player_to_list(id, name, ship_choice):
+	players[id] = {"id": id, "name": name, "ship_choice": ship_choice}
 
 func _ready():
 	get_tree().connect("network_peer_connected", self, "_player_connected")
