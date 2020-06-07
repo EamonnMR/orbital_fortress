@@ -4,8 +4,11 @@ export var max_speed = 120;
 export var accel = 15;
 export var turn_rate = 1;
 
+var basic_shot = preload("res://Shot.tscn")
+
 var velocity = Vector2()
 var can_shoot = true
+var player_id
 
 puppet var puppet_pos = Vector2()
 puppet var puppet_velocity = Vector2()
@@ -16,8 +19,8 @@ export var stunned = false
 # Use sync because it will be called everywhere
 
 sync func shoot(name, pos, direction, by_who):
-	var shot = preload("res://Shot.tscn").instance()
-	shot.set_name(name) # Ensure unique name for the bomb
+	var shot = basic_shot.instance()
+	shot.set_name(name) # Ensure unique name for the shot
 	shot.position = pos
 	shot.set_direction(direction)
 	shot.from_player = by_who
@@ -106,9 +109,11 @@ func _physics_process(delta):
 		puppet_pos = position # To avoid jitter
 
 puppet func stun():
+	print("stun: Took damage")
 	stunned = true
 
-master func exploded(_by_who):
+master func take_damage(_by_who):
+	print("master took damage")
 	if stunned:
 		return
 	rpc("stun") # Stun puppets

@@ -47,7 +47,7 @@ func _player_disconnected(id):
 # Callback from SceneTree, only for clients (not server).
 func _connected_ok():
 	# We just connected to a server
-	var id = get_tree().get_network_unique_id()
+	# var id = get_tree().get_network_unique_id()
 	emit_signal("connection_succeeded")
 
 func _get_player_data():
@@ -98,7 +98,7 @@ func modify_player_attribute(player_id, attr, new_value):
 			rpc_id(p, "sync_modify_player_attribute", player_id, attr, new_value)
 	
 		
-remote func pre_start_game(spawn_points):
+sync func pre_start_game(spawn_points):
 	# Change scene.
 	var world = load("res://world.tscn").instance()
 	get_tree().get_root().add_child(world)
@@ -211,7 +211,7 @@ func begin_game():
 	for p in players:
 		rpc_id(p, "pre_start_game", spawn_points)
 
-	pre_start_game(spawn_points)
+	# pre_start_game(spawn_points)
 
 
 func end_game():
