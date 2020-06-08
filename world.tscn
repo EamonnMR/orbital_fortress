@@ -13,27 +13,29 @@ font_data = ExtResource( 4 )
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 follow_viewport_enable = true
+scroll_ignore_camera_zoom = true
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2( 0, 0 )
-motion_offset = Vector2( 500, 500 )
 motion_mirroring = Vector2( 1, 1 )
 
 [node name="Sprite2" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
 texture = ExtResource( 1 )
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_offset = Vector2( 1000, 1000 )
+motion_scale = Vector2( 500, 500 )
 motion_mirroring = Vector2( 1, 1 )
 
 [node name="Sprite2" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
+rotation = 3.14159
 texture = ExtResource( 2 )
 
 [node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_offset = Vector2( 1500, 1500 )
+motion_scale = Vector2( 1000, 1000 )
 motion_mirroring = Vector2( 1, 1 )
 
 [node name="Sprite2" type="Sprite" parent="ParallaxBackground/ParallaxLayer3"]
+rotation = 1.5708
 texture = ExtResource( 2 )
 
 [node name="SpawnPoints" type="Node2D" parent="."]

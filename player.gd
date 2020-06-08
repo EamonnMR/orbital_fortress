@@ -9,6 +9,7 @@ var basic_shot = preload("res://Shot.tscn")
 var velocity = Vector2()
 var can_shoot = true
 var player_id
+var health = 100
 
 puppet var puppet_pos = Vector2()
 puppet var puppet_velocity = Vector2()
@@ -108,16 +109,14 @@ func _physics_process(delta):
 	if not is_network_master():
 		puppet_pos = position # To avoid jitter
 
-puppet func stun():
+sync func destroyed():
 	print("stun: Took damage")
-	stunned = true
+	queue_free()
 
-master func take_damage(_by_who):
-	print("master took damage")
-	if stunned:
-		return
-	rpc("stun") # Stun puppets
-	stun() # Stun master - could use sync to do both at once
+master func take_damage(_by_who, amount):
+	health -= amount
+	if(health) <= 0:
+		rpc("destroyed")
 
 func set_player_name(new_name):
 	get_node("label").set_text(new_name)
