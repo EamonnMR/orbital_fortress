@@ -9,6 +9,7 @@ const MAX_PEERS = 12
 const HOST_ID = 1 # TODO: might simplify the code if we use 1 here, if 1 is always the ID of the server for RPC
 
 var player_name = "The Warrior"
+var world = null
 
 const DEFAULT_SHIP = 1
 
@@ -100,32 +101,13 @@ func modify_player_attribute(player_id, attr, new_value):
 		
 sync func pre_start_game(spawn_points):
 	# Change scene.
-	var world = load("res://world.tscn").instance()
+	world = load("res://world.tscn").instance()
 	get_tree().get_root().add_child(world)
 
 	get_tree().get_root().get_node("Lobby").hide()
 
-	# TODO: Load a list of these
-	var player_scene = load("res://player.tscn")
-
 	for p_id in spawn_points:
-		var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position
-		
-		# TODO: Instance differently based on players[p_id]["ship_choice"]
-		var player = player_scene.instance()
-
-		player.set_name(str(p_id)) # Use unique ID as node name.
-		player.position=spawn_pos
-		player.set_network_master(p_id) #set unique id as master.
-
-		if p_id == get_tree().get_network_unique_id():
-			# If node for this peer id, set name.
-			player.set_player_name(player_name)
-		else:
-			# Otherwise set name from peer.
-			player.set_player_name(players[p_id]["name"])
-
-		world.get_node("Players").add_child(player)
+		spawn_player(p_id, world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position)
 
 	# Set up score.
 	# TODO: Make the score node follow the camera / static
@@ -138,6 +120,20 @@ sync func pre_start_game(spawn_points):
 		rpc_id(1, "ready_to_start", get_tree().get_network_unique_id())
 	elif players.size() == 0:
 		post_start_game()
+
+func spawn_player(id, position):
+	# TODO: Load a list of these, switch based on player id
+	var player_scene = load("res://player.tscn")
+	# TODO: Instance differently based on players[p_id]["ship_choice"]
+	var player = player_scene.instance()
+
+	player.set_name(str(id)) # Use unique ID as node name.
+	player.position=position
+	player.set_network_master(id) #set unique id as master.
+
+	player.set_player_name(players[id]["name"])
+
+	world.get_node("Players").add_child(player)
 
 
 remote func post_start_game():
@@ -231,3 +227,18 @@ func _ready():
 	get_tree().connect("connected_to_server", self, "_connected_ok")
 	get_tree().connect("connection_failed", self, "_connected_fail")
 	get_tree().connect("server_disconnected", self, "_server_disconnected")
+
+func _respawn_player():
+	rpc(
+		"_sync_respawn_player",
+		get_tree().get_network_unique_id()
+	)
+
+sync func _sync_respawn_player(id):
+	spawn_player(id, Vector2(0,0))
+
+func add_respawn_timer():
+	# TODO: Stick this right into world.tscn and show/hide it?
+	var timer = preload("res://RespawnCountdown.tscn").instance()
+	timer.connect("completed", self, "_respawn_player")	
+	world.add_child(timer)

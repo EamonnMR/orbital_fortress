@@ -1,8 +1,8 @@
 extends KinematicBody2D
 
-export var max_speed = 120;
+export var max_speed = 150;
 export var accel = 15;
-export var turn_rate = 1;
+export var turn_rate = 3;
 
 var basic_shot = preload("res://Shot.tscn")
 
@@ -110,8 +110,10 @@ func _physics_process(delta):
 		puppet_pos = position # To avoid jitter
 
 sync func destroyed():
-	print("stun: Took damage")
+	print("Destroyed: ", name)
 	queue_free()
+	if is_network_master():
+		gamestate.add_respawn_timer()
 
 master func take_damage(_by_who, amount):
 	health -= amount
