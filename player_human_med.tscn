@@ -6,6 +6,7 @@
 
 [node name="player" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+accel = 15
 
 [node name="shape" parent="." index="3"]
 position = Vector2( 0, -0.340561 )

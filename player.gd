@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 export var max_speed = 150;
-export var accel = 15;
+export var accel = 50;
 export var turn_rate = 3;
 
 var basic_shot = preload("res://Shot.tscn")
@@ -10,6 +10,7 @@ var velocity = Vector2()
 var can_shoot = true
 var player_id
 var health = 100
+var inertialess_speed = 0
 
 puppet var puppet_pos = Vector2()
 puppet var puppet_velocity = Vector2()
@@ -71,7 +72,7 @@ func _rotate_to_cancel_velocity():
 	print("None")
 	return 0
 	
-func _handle_movement(delta):
+func _handle_rotation(delta):
 	var rotation = 0
 	if Input.is_action_pressed("move_left"):
 		rotation = -1
@@ -82,9 +83,23 @@ func _handle_movement(delta):
 
 	$sprite.rotation += rotation * turn_rate * delta
 
+func _handle_acceleration(delta):
 	if Input.is_action_pressed("move_up"):
-		velocity += Vector2(0, -1 * accel).rotated($sprite.rotation)
-		
+		velocity += Vector2(0, -1 * accel * delta).rotated($sprite.rotation)
+
+func _handle_acceleration_inertialess(delta):
+	# Replace the above func with a call to this one if you want an inertialess ship
+	if Input.is_action_pressed("move_up"):
+		inertialess_speed += accel * delta
+	if Input.is_action_pressed("move_down"):
+		inertialess_speed -= accel * delta
+	
+	if inertialess_speed < 0:
+		inertialess_speed = 0
+	elif inertialess_speed > max_speed:
+		inertialess_speed = max_speed
+	
+	velocity = Vector2(0, -1 * inertialess_speed).rotated($sprite.rotation)
 func _push_vars_to_net():
 		rset("puppet_velocity", velocity)
 		rset("puppet_pos", position)
@@ -98,7 +113,8 @@ func _get_vars_from_net():
 func _physics_process(delta):
 	if is_network_master():
 
-		_handle_movement(delta)
+		_handle_rotation(delta)
+		_handle_acceleration(delta)
 		_limit_speed()
 		_handle_shooting()
 		_push_vars_to_net()
