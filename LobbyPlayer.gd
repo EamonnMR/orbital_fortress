@@ -6,9 +6,8 @@ signal remove_player(player_id)
 var player_id = null
 
 func _ready():
-	$ship_choice.add_item("Fighter")
-	$ship_choice.add_item("Destroyer")
-	$ship_choice.add_item("Cruiser")
+	for species in gamestate.player_types.values():
+		$ship_choice.add_item(species["name"])
 	
 func set_attributes(attributes, is_bot):
 	print(attributes)

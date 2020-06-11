@@ -8,6 +8,13 @@ const MAX_PEERS = 12
 
 const HOST_ID = 1 # TODO: might simplify the code if we use 1 here, if 1 is always the ID of the server for RPC
 
+var player_types = {
+	0: {"name": "human", "scene": load("res://player_human_med.tscn")},
+	1: {"name": "robot", "scene": load("res://player_void_med.tscn")},
+	2: {"name": "monster", "scene": load("res://player_bio_med.tscn")},
+	3: {"name": "saucer", "scene": load("res://player_ufo_med.tscn")},
+}
+
 var player_name = "The Warrior"
 var world = null
 
@@ -123,7 +130,7 @@ sync func pre_start_game(spawn_points):
 
 func spawn_player(id, position):
 	# TODO: Load a list of these, switch based on player id
-	var player_scene = load("res://player.tscn")
+	var player_scene = player_types[players[id]["ship_choice"]]["scene"]
 	# TODO: Instance differently based on players[p_id]["ship_choice"]
 	var player = player_scene.instance()
 
