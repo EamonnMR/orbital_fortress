@@ -121,9 +121,9 @@ __meta__ = {
 }
 
 [node name="Starbase 0" parent="." instance=ExtResource( 5 )]
-position = Vector2( 79.694, 315.548 )
+position = Vector2( -288.482, 323.34 )
 
 [node name="Starbase 1" parent="." instance=ExtResource( 5 )]
-position = Vector2( 918.339, 323.138 )
+position = Vector2( 1422.88, 315.346 )
 team = 1
 [connection signal="pressed" from="Winner/ExitGame" to="Score" method="_on_exit_game_pressed"]

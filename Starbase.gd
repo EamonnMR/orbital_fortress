@@ -15,3 +15,4 @@ master func take_damage(_by_who, amount):
 sync func destroyed():
 	print("Destroyed: ", name)
 	queue_free()
+	gamestate.team_defeated(team)

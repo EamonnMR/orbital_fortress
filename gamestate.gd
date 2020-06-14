@@ -224,6 +224,11 @@ func end_game():
 
 	emit_signal("game_ended")
 	players.clear()
+	
+func team_defeated(team):
+	print("Team: ", team, " is defeated.")
+	print("Team: ", self.other_team(team), " is the winner")
+	end_game()
 
 func _add_player_to_list(id, name, ship_choice):
 	players[id] = {"id": id, "name": name, "ship_choice": ship_choice}
@@ -249,3 +254,9 @@ func add_respawn_timer():
 	var timer = preload("res://RespawnCountdown.tscn").instance()
 	timer.connect("completed", self, "_respawn_player")	
 	world.add_child(timer)
+	
+func other_team(team):
+	return {
+		0: 1,
+		1: 0
+	}[team]
