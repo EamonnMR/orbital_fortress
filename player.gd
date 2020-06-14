@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
-export var max_speed = 150;
-export var accel = 50;
+export var max_speed = 170;
+export var accel = 75;
 export var turn_rate = 3;
 
 var basic_shot = preload("res://Shot.tscn")
@@ -9,15 +9,15 @@ var basic_shot = preload("res://Shot.tscn")
 var velocity = Vector2()
 var can_shoot = true
 var player_id
-var health = 100
+var max_health = 100
+var health
 var inertialess_speed = 0
 var team = null
 
 puppet var puppet_pos = Vector2()
 puppet var puppet_velocity = Vector2()
 puppet var puppet_rotation = 0.0
-
-export var stunned = false
+puppet var puppet_health = 0
 
 # Use sync because it will be called everywhere
 
@@ -106,11 +106,13 @@ func _push_vars_to_net():
 		rset("puppet_velocity", velocity)
 		rset("puppet_pos", position)
 		rset("puppet_rotation", $sprite.rotation)
+		rset("puppet_health", health)
 
 func _get_vars_from_net():
 	position = puppet_pos
 	velocity = puppet_velocity
 	$sprite.rotation = puppet_rotation
+	health = puppet_health
 
 func _physics_process(delta):
 	if is_network_master():
@@ -142,7 +144,7 @@ func set_player_name(new_name):
 	get_node("label").set_text(new_name)
 
 func _ready():
-	stunned = false
+	health = max_health
 	puppet_pos = position
 
 	if (is_network_master()):

@@ -21,7 +21,7 @@ func qualify_hit(body):
 func hit_target(target):
 	if is_network_master():
 		if target.has_method("take_damage"):
-			# Exploded has a master keyword, so it will only be received by the master.
+			# TODO: Local version of take damage... worth it?
 			target.rpc("take_damage", from_player, DAMAGE)
 	queue_free()
 	# TODO: Sweet explosion

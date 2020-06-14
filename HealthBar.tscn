@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://HealthBar.gd" type="Script" id=1]
+
+[node name="HealthBar" type="Control"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+margin_left = -49.7503
+margin_top = -51.8145
+margin_right = 51.2497
+margin_bottom = -37.8145
+__meta__ = {
+"_edit_use_anchors_": false
+}

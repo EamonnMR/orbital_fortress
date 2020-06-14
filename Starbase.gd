@@ -1,10 +1,12 @@
 extends Area2D
 
 export var team = 0
-var health = 100
+var max_health = 100
+var health
 
 func _ready():
 	print("Starbase init")
+	health = max_health
 	$Sprite.frame = team
 
 master func take_damage(_by_who, amount):
