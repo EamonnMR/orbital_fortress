@@ -15,6 +15,6 @@ func _ready():
 	)
 	start()
 
-func _on_RespawnCountdown_tween_completed():
+func _on_RespawnCountdown_tween_completed(_object, _key):
 	emit_signal("completed")
 	queue_free()
