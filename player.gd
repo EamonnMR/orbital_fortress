@@ -11,6 +11,7 @@ var can_shoot = true
 var player_id
 var health = 100
 var inertialess_speed = 0
+var team = null
 
 puppet var puppet_pos = Vector2()
 puppet var puppet_velocity = Vector2()
@@ -23,6 +24,7 @@ export var stunned = false
 sync func shoot(name, pos, direction, by_who):
 	var shot = basic_shot.instance()
 	shot.set_name(name) # Ensure unique name for the shot
+	shot.team = team
 	shot.position = pos
 	shot.set_direction(direction)
 	shot.from_player = by_who

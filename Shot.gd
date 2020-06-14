@@ -3,6 +3,7 @@ extends Area2D
 const MOVE_SPEED = 275
 const DAMAGE = 20
 var from_player
+var team
 
 func _process(delta):
 	position += delta * Vector2(0, -1 * MOVE_SPEED).rotated($Sprite.rotation)
@@ -15,7 +16,7 @@ func _on_Shot_body_entered(body):
 		hit_target(body)
 		
 func qualify_hit(body):
-	return body.name != str(from_player)
+	return body.name != str(from_player) and body.team != team
 
 func hit_target(target):
 	if is_network_master():

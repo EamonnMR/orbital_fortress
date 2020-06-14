@@ -139,6 +139,7 @@ func spawn_player(id, position):
 	player.set_network_master(id) #set unique id as master.
 
 	player.set_player_name(players[id]["name"])
+	player.team = players[id]["team"]
 
 	world.get_node("Players").add_child(player)
 
