@@ -22,6 +22,11 @@ margin_right = 175.0
 margin_bottom = 40.0
 text = "Ship Type"
 
+[node name="team_choice" type="OptionButton" parent="."]
+margin_left = 179.0
+margin_right = 208.0
+margin_bottom = 40.0
+
 [node name="is_bot" type="CheckButton" parent="."]
 visible = false
 margin_left = 179.0
@@ -38,4 +43,5 @@ margin_right = 349.0
 margin_bottom = 40.0
 text = "Remove"
 [connection signal="item_selected" from="ship_choice" to="." method="_on_ship_choice_item_selected"]
+[connection signal="item_selected" from="team_choice" to="." method="_on_team_choice_item_selected"]
 [connection signal="pressed" from="remove" to="." method="_on_remove_pressed"]

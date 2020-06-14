@@ -231,7 +231,7 @@ func team_defeated(team):
 	end_game()
 
 func _add_player_to_list(id, name, ship_choice):
-	players[id] = {"id": id, "name": name, "ship_choice": ship_choice}
+	players[id] = {"id": id, "name": name, "ship_choice": ship_choice, "team": 0}
 
 func _ready():
 	get_tree().connect("network_peer_connected", self, "_player_connected")

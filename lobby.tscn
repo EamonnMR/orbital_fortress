@@ -63,11 +63,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="List" type="VBoxContainer" parent="Players"]
+[node name="List_t0" type="VBoxContainer" parent="Players"]
 margin_left = 29.0
 margin_top = 49.0
-margin_right = 430.0
+margin_right = 218.0
 margin_bottom = 292.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="List_t1" type="VBoxContainer" parent="Players"]
+margin_left = 247.537
+margin_top = 46.5445
+margin_right = 436.537
+margin_bottom = 289.545
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Connect" type="Panel" parent="."]
 anchor_left = 0.5

@@ -108,13 +108,17 @@ func _on_update_player_config_in_lobby(player_id, attr, value):
 	gamestate.modify_player_attribute(player_id, attr, value)
 	
 func _clear_list():
-	for n in $Players/List.get_children():
-		$Players/List.remove_child(n)
-		n.queue_free()
+	for list in [$Players/List_t0, $Players/List_t1]:
+		for n in list.get_children():
+			list.remove_child(n)
+			n.queue_free()
 
 func _add_lobby_player(player):
 	var lobby_player = preload("res://LobbyPlayer.tscn").instance()
-	$Players/List.add_child(lobby_player)
+	if(player["team"]) == 0:
+		$Players/List_t0.add_child(lobby_player)
+	if(player["team"]) == 1:
+		$Players/List_t1.add_child(lobby_player)
 	lobby_player.set_attributes(player, false)
 	lobby_player.connect("list_item_changed", self, "_on_update_player_config_in_lobby")
 	lobby_player.connect("remove_player", self, "_on_kick_player")
