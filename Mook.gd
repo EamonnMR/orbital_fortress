@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 export var max_speed = 100;
 export var accel = 50;
-export var turn_rate = 2;
+export var turn_rate = 0.5;
 
 export var team = 0
 var health = 25
@@ -72,25 +72,34 @@ func _find_target():
 
 func _handle_rotation(delta):
 	# TODO: Rotate to face target
-	$sprite/Sprite.rotation = rotation_impulse # += rotation_impulse * turn_rate * delta
+	$sprite/Sprite.rotation = fmod($sprite/Sprite.rotation + rotation_impulse, PI * 2) # += rotation_impulse * turn_rate * delta
 
 func _handle_shooting():
 	pass
 	# TODO: If target in range and can_shoot, do the shooting thing
 
+func _constrained_point(max_turn, position):
+	# Get ieal turn for a given point-to position and limited turn amount
+	
+	# TODO: Sometimes it's taking the long way 'round. Don't do that.
+	
+	var ideal_face = fmod(get_angle_to(target.position) + (PI / 2), PI * 2) # TODO: Global Position?
+	var ideal_turn = fmod(ideal_face - $sprite/Sprite.rotation, PI * 2)
+	
+	max_turn = sign(ideal_face) * max_turn  # Ideal turn in the right direction
+	
+	if(abs(ideal_turn) > abs(max_turn)):
+		return max_turn
+	else:
+		return ideal_turn
+
 func _handle_ai(delta):
 	if not target:
 		target = _find_target()
-				
+	rotation_impulse = 0.0
 	if(target):
-		rotation_impulse = 0.0
-		var max_turn = turn_rate * delta
+		rotation_impulse = _constrained_point(turn_rate * delta, target.position)
 		
-		var ideal_face = get_angle_to(target.position) + (PI / 2) # TODO: Global Position?
-		var ideal_turn = ideal_face - $sprite.rotation
-		# TODO: Continue writing this function to do the rotation stuff
-		rotation_impulse = ideal_face
-
 func _handle_acceleration(delta):
 	# TODO: Always accelerate? Or at least always accel if joust = true or distance > engagement dist
 	pass
