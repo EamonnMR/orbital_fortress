@@ -5,7 +5,6 @@ var max_health = 100
 var health
 
 func _ready():
-	print("Starbase init")
 	health = max_health
 	$Sprite.frame = team
 
