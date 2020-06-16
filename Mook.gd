@@ -79,14 +79,27 @@ func _handle_shooting():
 	# TODO: If target in range and can_shoot, do the shooting thing
 
 func _constrained_point(max_turn, position):
-	# Get ieal turn for a given point-to position and limited turn amount
+	# Get ideal turn for a given point-to position and limited turn amount
 	
 	# TODO: Sometimes it's taking the long way 'round. Don't do that.
 	
-	var ideal_face = fmod(get_angle_to(target.position) + (PI / 2), PI * 2) # TODO: Global Position?
+	var ideal_face = fmod(get_angle_to(target.position) + PI / 2, PI * 2) # TODO: Global Position?
 	var ideal_turn = fmod(ideal_face - $sprite/Sprite.rotation, PI * 2)
+	if(ideal_turn > PI):
+		ideal_turn = fmod(ideal_turn - 2 * PI, 2 * PI)
+
+	elif(ideal_turn < -1 * PI):
+		ideal_turn = fmod(ideal_turn + 2 * PI, 2 * PI)
+
+		
+	health = floor(abs((25 * ideal_turn / (2 * PI)) ))
 	
-	max_turn = sign(ideal_face) * max_turn  # Ideal turn in the right direction
+	max_turn = sign(ideal_turn) * max_turn  # Ideal turn in the right direction
+	
+	if(sign(max_turn) == sign(ideal_turn)):
+		$sprite/Sprite.frame = 0
+	else:
+		$sprite/Sprite.frame = 1
 	
 	if(abs(ideal_turn) > abs(max_turn)):
 		return max_turn
