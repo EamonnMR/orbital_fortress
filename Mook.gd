@@ -1,8 +1,14 @@
 extends KinematicBody2D
 
 export var max_speed = 100;
-export var accel = 50;
-export var turn_rate = 0.5;
+export var accel = 25;
+export var turn_rate = 0.6;
+export var accel_margin = PI / 2
+export var accel_distance = 10
+export var shoot_margin = PI / 2
+export var shoot_distance = 100
+
+var basic_shot = preload("res://Shot.tscn")
 
 export var team = 0
 var health = 25
@@ -11,6 +17,8 @@ var velocity = Vector2()
 
 var target = null
 var rotation_impulse = 0.0
+var ideal_face = null
+var can_shoot = true
 
 puppet var puppet_pos = Vector2()
 puppet var puppet_velocity = Vector2()
@@ -75,14 +83,16 @@ func _handle_rotation(delta):
 	$sprite/Sprite.rotation = fmod($sprite/Sprite.rotation + rotation_impulse, PI * 2) # += rotation_impulse * turn_rate * delta
 
 func _handle_shooting():
-	pass
-	# TODO: If target in range and can_shoot, do the shooting thing
+	if(
+		can_shoot and _should_shoot()
+	):
+		can_shoot = false
+		$reload_timer.start()
+		
+		var name = get_name() + "shot"
+		rpc("shoot", name, position, $sprite/Sprite.rotation, get_tree().get_network_unique_id())
 
 func _constrained_point(max_turn, position):
-	# Get ideal turn for a given point-to position and limited turn amount
-	
-	# TODO: Sometimes it's taking the long way 'round. Don't do that.
-	
 	var ideal_face = fmod(get_angle_to(target.position) + PI / 2, PI * 2) # TODO: Global Position?
 	var ideal_turn = fmod(ideal_face - $sprite/Sprite.rotation, PI * 2)
 	if(ideal_turn > PI):
@@ -90,32 +100,55 @@ func _constrained_point(max_turn, position):
 
 	elif(ideal_turn < -1 * PI):
 		ideal_turn = fmod(ideal_turn + 2 * PI, 2 * PI)
-
-		
-	health = floor(abs((25 * ideal_turn / (2 * PI)) ))
 	
 	max_turn = sign(ideal_turn) * max_turn  # Ideal turn in the right direction
 	
-	if(sign(max_turn) == sign(ideal_turn)):
-		$sprite/Sprite.frame = 0
-	else:
-		$sprite/Sprite.frame = 1
-	
 	if(abs(ideal_turn) > abs(max_turn)):
-		return max_turn
+		return [max_turn, ideal_face]
 	else:
-		return ideal_turn
+		return [ideal_turn, ideal_face]
 
 func _handle_ai(delta):
 	if not target:
 		target = _find_target()
 	rotation_impulse = 0.0
+	ideal_face = null
 	if(target):
-		rotation_impulse = _constrained_point(turn_rate * delta, target.position)
-		
+		var impulse = _constrained_point(turn_rate * delta, target.position)
+		rotation_impulse = impulse[0]
+		ideal_face = impulse[1]
+
 func _handle_acceleration(delta):
-	# TODO: Always accelerate? Or at least always accel if joust = true or distance > engagement dist
-	pass
+	if(target):
+		if(ideal_face):
+			if(_facing_right_way_to_accel() and _far_enough_to_accel()):
+				velocity += Vector2(0, -1 * accel * delta).rotated($sprite/Sprite.rotation)
+
+func _facing_right_way_to_accel():
+	return _facing_within_margin(accel_margin)
+
+func _far_enough_to_accel():
+	return position.distance_to(target.position) > accel_distance
+
+func _facing_within_margin(margin):
+	return ideal_face and abs(fmod(ideal_face - $sprite/Sprite.rotation, 2 * PI)) < margin
 
 func _limit_speed():
-	pass
+	if velocity.length() > max_speed:
+		velocity = Vector2(cos(velocity.angle()), sin(velocity.angle())) * max_speed
+
+func _should_shoot():
+	return target and _facing_within_margin(shoot_margin) and position.distance_to(target.position) < shoot_distance
+
+sync func shoot(name, pos, direction, by_who):
+	var shot = basic_shot.instance()
+	shot.set_name(name) # Ensure unique name for the shot
+	shot.team = team
+	shot.position = pos
+	shot.set_direction(direction)
+	shot.from_player = by_who
+	# No need to set network master to bomb, will be owned by server by default
+	get_node("../..").add_child(shot)
+
+func _on_reload_timer_timeout():
+	can_shoot = true
