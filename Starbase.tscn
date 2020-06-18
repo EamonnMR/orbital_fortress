@@ -24,3 +24,10 @@ texture = ExtResource( 1 )
 vframes = 2
 
 [node name="HealthBar" parent="." instance=ExtResource( 3 )]
+
+[node name="spawn_timer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[node name="gun_timer" type="Timer" parent="."]
+[connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]

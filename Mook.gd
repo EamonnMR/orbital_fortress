@@ -72,7 +72,9 @@ func distance_comparitor(lval, rval):
 
 func _find_target():
 	var players = get_node("../../Players").get_children()
-	players.sort_custom(self, "distance_comparitor")
+	var mooks = get_node("../../Mooks").get_children()
+	var bases = get_node("../../Bases").get_children()
+	(players + mooks + bases).sort_custom(self, "distance_comparitor")
 	for player in players:
 		if player.team != team:
 			return player
@@ -89,8 +91,7 @@ func _handle_shooting():
 		can_shoot = false
 		$reload_timer.start()
 		
-		var name = get_name() + "shot"
-		rpc("shoot", name, position, $sprite/Sprite.rotation, get_tree().get_network_unique_id())
+		rpc("shoot", "mook shot", position, $sprite/Sprite.rotation, get_tree().get_network_unique_id())
 
 func _constrained_point(max_turn, position):
 	var ideal_face = fmod(get_angle_to(target.position) + PI / 2, PI * 2) # TODO: Global Position?
@@ -146,7 +147,6 @@ sync func shoot(name, pos, direction, by_who):
 	shot.team = team
 	shot.position = pos
 	shot.set_direction(direction)
-	shot.from_player = by_who
 	# No need to set network master to bomb, will be owned by server by default
 	get_node("../..").add_child(shot)
 

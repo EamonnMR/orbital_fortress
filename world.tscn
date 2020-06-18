@@ -1,11 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://starfield.png" type="Texture" id=1]
 [ext_resource path="res://starfield_alpha.png" type="Texture" id=2]
 [ext_resource path="res://score.gd" type="Script" id=3]
 [ext_resource path="res://montserrat.otf" type="DynamicFontData" id=4]
 [ext_resource path="res://Starbase.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Mook.tscn" type="PackedScene" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 44
@@ -87,9 +86,6 @@ position = Vector2( 1477.33, 1613.19 )
 team = 1
 
 [node name="Mooks" type="Node2D" parent="."]
-
-[node name="KinematicBody2D" parent="Mooks" instance=ExtResource( 6 )]
-position = Vector2( 304.654, 306.842 )
 
 [node name="Players" type="Node2D" parent="."]
 

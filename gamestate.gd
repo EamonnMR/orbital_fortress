@@ -215,8 +215,6 @@ func begin_game():
 	for p in players:
 		rpc_id(p, "pre_start_game", spawn_points)
 
-	# pre_start_game(spawn_points)
-
 
 func end_game():
 	if has_node("/root/World"): # Game is in progress.

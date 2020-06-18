@@ -17,3 +17,14 @@ sync func destroyed():
 	print("Destroyed: ", name)
 	queue_free()
 	gamestate.team_defeated(team)
+
+func _on_spawn_timer_timeout():
+	if is_network_master():
+		# TODO: Generate any randomness such as mook position
+		rpc("spawn_mooks")
+
+sync func spawn_mooks():
+	var mook = preload("res://Mook.tscn").instance()
+	mook.team = team
+	mook.position = position
+	get_node("../../Mooks").add_child(mook)
