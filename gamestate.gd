@@ -12,7 +12,7 @@ var player_types = {
 	0: {"name": "human", "scene": load("res://player_human_med.tscn")},
 	1: {"name": "robot", "scene": load("res://player_void_med.tscn")},
 	2: {"name": "monster", "scene": load("res://player_bio_med.tscn")},
-	3: {"name": "saucer", "scene": load("res://player_ufo_med.tscn")},
+	3: {"name": "alien", "scene": load("res://player_ufo_med.tscn")},
 }
 
 var player_name = "The Warrior"

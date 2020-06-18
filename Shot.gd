@@ -4,9 +4,13 @@ const MOVE_SPEED = 275
 const DAMAGE = 20
 var from_player
 var team
+var velocity = Vector2()
+
+func _ready():
+	velocity += Vector2(0, -1 * MOVE_SPEED).rotated($Sprite.rotation)
 
 func _process(delta):
-	position += delta * Vector2(0, -1 * MOVE_SPEED).rotated($Sprite.rotation)
+	position += delta * velocity
 
 func set_direction(rotation):
 	$Sprite.rotation = rotation

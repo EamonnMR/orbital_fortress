@@ -2,11 +2,12 @@ extends KinematicBody2D
 
 export var max_speed = 100;
 export var accel = 25;
-export var turn_rate = 0.6;
+export var turn_rate = PI / 4
 export var accel_margin = PI / 2
 export var accel_distance = 10
 export var shoot_margin = PI / 2
-export var shoot_distance = 100
+export var shoot_distance = 200
+export var max_target_distance = 1000
 
 var basic_shot = preload("res://Shot.tscn")
 
@@ -15,6 +16,7 @@ var health = 25
 var max_health = 25
 var velocity = Vector2()
 
+var target_is_default = null
 var target = null
 var rotation_impulse = 0.0
 var ideal_face = null
@@ -45,10 +47,10 @@ func _physics_process(delta):
 		puppet_pos = position # To avoid jitter
 
 func _push_vars_to_net():
-		rset("puppet_velocity", velocity)
-		rset("puppet_pos", position)
-		rset("puppet_rotation", $sprite.rotation)
-		rset("puppet_health", health)
+	rset("puppet_velocity", velocity)
+	rset("puppet_pos", position)
+	rset("puppet_rotation", $sprite.rotation)
+	rset("puppet_health", health)
 
 func _get_vars_from_net():
 	position = puppet_pos
@@ -71,13 +73,24 @@ func distance_comparitor(lval, rval):
 	return ldist < rdist
 
 func _find_target():
+	var nodes = []
 	var players = get_node("../../Players").get_children()
+	nodes += players
 	var mooks = get_node("../../Mooks").get_children()
+	nodes += mooks
 	var bases = get_node("../../Bases").get_children()
-	(players + mooks + bases).sort_custom(self, "distance_comparitor")
-	for player in players:
-		if player.team != team:
-			return player
+	nodes += bases
+	nodes.sort_custom(self, "distance_comparitor")
+	for node in nodes:
+		if position.distance_to(node.position) > max_target_distance:
+			break
+		if node.team != team and is_instance_valid(node):
+			return node
+	# By default, go after the enemy starbase
+	for node in bases:
+		if node.team != team and is_instance_valid(node):
+			target_is_default = true
+			return node
 	return null
 
 func _handle_rotation(delta):
@@ -110,7 +123,7 @@ func _constrained_point(max_turn, position):
 		return [ideal_turn, ideal_face]
 
 func _handle_ai(delta):
-	if not target:
+	if not target or not is_instance_valid(target) or target_is_default:
 		target = _find_target()
 	rotation_impulse = 0.0
 	ideal_face = null
@@ -147,8 +160,12 @@ sync func shoot(name, pos, direction, by_who):
 	shot.team = team
 	shot.position = pos
 	shot.set_direction(direction)
+	shot.velocity = velocity
 	# No need to set network master to bomb, will be owned by server by default
 	get_node("../..").add_child(shot)
 
 func _on_reload_timer_timeout():
 	can_shoot = true
+
+func _on_ai_rethink_timer_timeout():
+	target = _find_target()

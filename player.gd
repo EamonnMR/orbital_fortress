@@ -28,6 +28,7 @@ sync func shoot(name, pos, direction, by_who):
 	shot.position = pos
 	shot.set_direction(direction)
 	shot.from_player = by_who
+	shot.velocity = velocity
 	# No need to set network master to bomb, will be owned by server by default
 	get_node("../..").add_child(shot)
 

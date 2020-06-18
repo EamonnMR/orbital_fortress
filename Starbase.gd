@@ -24,7 +24,9 @@ func _on_spawn_timer_timeout():
 		rpc("spawn_mooks")
 
 sync func spawn_mooks():
-	var mook = preload("res://Mook.tscn").instance()
-	mook.team = team
-	mook.position = position
-	get_node("../../Mooks").add_child(mook)
+	if len(get_node("../../Mooks").get_children()) < 25:
+		for i in range(5):
+			var mook = preload("res://Mook.tscn").instance()
+			mook.team = team
+			mook.position = position + (Vector2(10, 10) * i)
+			get_node("../../Mooks").add_child(mook)
