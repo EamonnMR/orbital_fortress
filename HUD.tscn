@@ -1,0 +1,86 @@
+[gd_scene format=2]
+
+[node name="HUD" type="CanvasLayer"]
+layer = -1
+
+[node name="HUD" type="MarginContainer" parent="."]
+anchor_right = 1.0
+margin_bottom = 45.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="team0score" type="HBoxContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 45.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="team0score"]
+margin_top = 15.0
+margin_right = 110.0
+margin_bottom = 29.0
+text = "Red Team Score: "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="team0score"]
+margin_left = 114.0
+margin_top = 15.0
+margin_right = 122.0
+margin_bottom = 29.0
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ProgressBar" type="ProgressBar" parent="team0score"]
+margin_left = 126.0
+margin_right = 226.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_vertical = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="team0score2" type="HBoxContainer" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -226.0
+margin_bottom = 45.0
+size_flags_horizontal = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="team0score2"]
+margin_top = 15.0
+margin_right = 110.0
+margin_bottom = 29.0
+text = "Red Team Score: "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="team0score2"]
+margin_left = 114.0
+margin_top = 15.0
+margin_right = 122.0
+margin_bottom = 29.0
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ProgressBar" type="ProgressBar" parent="team0score2"]
+margin_left = 126.0
+margin_right = 226.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_vertical = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

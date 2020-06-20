@@ -15,8 +15,18 @@ var player_types = {
 	3: {"name": "alien", "scene": load("res://player_ufo_med.tscn")},
 }
 
+var teams = {
+	0: {
+		"score": 0
+	},
+	1: {
+		"score": 0
+	}
+}
+
 var player_name = "The Warrior"
 var world = null
+var hud = null
 
 const DEFAULT_SHIP = 1
 
@@ -110,17 +120,18 @@ sync func pre_start_game(spawn_points):
 	# Change scene.
 	world = load("res://world.tscn").instance()
 	get_tree().get_root().add_child(world)
+	
+	hud = load("res://HUD.tscn").instance()
+	get_tree().get_root().add_child(hud)
+	
+		
+	var background = load("res://Background.tscn").instance()
+	get_tree().get_root().add_child(background)
 
 	get_tree().get_root().get_node("Lobby").hide()
 
 	for p_id in spawn_points:
 		spawn_player(p_id, world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position)
-
-	# Set up score.
-	# TODO: Make the score node follow the camera / static
-
-	for pn in players:
-		world.get_node("Score").add_player(pn, players[pn]["name"])
 
 	if not get_tree().is_network_server():
 		# Tell server we are ready to start.
