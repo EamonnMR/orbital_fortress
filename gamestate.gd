@@ -127,6 +127,8 @@ sync func pre_start_game(spawn_points):
 		
 	var background = load("res://Background.tscn").instance()
 	get_tree().get_root().add_child(background)
+	
+	print(get_tree().get_root().get_children())
 
 	get_tree().get_root().get_node("Lobby").hide()
 
@@ -231,7 +233,12 @@ func end_game():
 	if has_node("/root/World"): # Game is in progress.
 		# End it
 		get_node("/root/World").queue_free()
-
+	if has_node("/root/HUD"): # Game is in progress.
+		# End it
+		get_node("/root/HUD").queue_free()
+	if has_node("/root/Background"): # Game is in progress.
+		# End it
+		get_node("/root/Background").queue_free()
 	emit_signal("game_ended")
 	players.clear()
 	
