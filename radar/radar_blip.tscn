@@ -1,0 +1,17 @@
+[gd_scene format=2]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -2.15976
+margin_top = -2.1418
+margin_right = 7.84024
+margin_bottom = 7.8582
+rect_scale = Vector2( 0.439999, 0.439999 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

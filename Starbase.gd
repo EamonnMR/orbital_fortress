@@ -30,3 +30,4 @@ sync func spawn_mooks():
 			mook.team = team
 			mook.position = position + (Vector2(10, 10) * i)
 			get_node("../../Mooks").add_child(mook)
+			get_node("../../../HUD/Radar").add_item(mook)

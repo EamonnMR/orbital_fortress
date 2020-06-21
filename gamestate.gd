@@ -155,7 +155,7 @@ func spawn_player(id, position):
 	player.team = players[id]["team"]
 
 	world.get_node("Players").add_child(player)
-
+	hud.get_node("Radar").add_item(player)
 
 remote func post_start_game():
 	get_tree().set_pause(false) # Unpause and unleash the game!
