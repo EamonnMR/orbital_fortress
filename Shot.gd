@@ -1,13 +1,13 @@
 extends Area2D
 
-const MOVE_SPEED = 275
-const DAMAGE = 20
+var move_speed = 275
+var damage = 20
 var from_player
 var team
 var velocity = Vector2()
 
 func _ready():
-	velocity += Vector2(0, -1 * MOVE_SPEED).rotated($Sprite.rotation)
+	velocity += Vector2(0, -1 * move_speed).rotated($Sprite.rotation)
 
 func _process(delta):
 	position += delta * velocity
@@ -27,6 +27,6 @@ func hit_target(target):
 	if is_network_master():
 		if target.has_method("take_damage"):
 			# TODO: Local version of take damage... worth it?
-			target.rpc("take_damage", from_player, DAMAGE)
+			target.rpc("take_damage", from_player, damage)
 	queue_free()
 	# TODO: Sweet explosion

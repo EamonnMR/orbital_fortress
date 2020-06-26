@@ -26,7 +26,7 @@ func _on_spawn_timer_timeout():
 sync func spawn_mooks():
 	if len(get_node("../../Mooks").get_children()) < 25:
 		for i in range(5):
-			var mook = preload("res://Mook.tscn").instance()
+			var mook = preload("res://ships/mooks/Mook.tscn").instance()
 			mook.team = team
 			mook.position = position + (Vector2(10, 10) * i)
 			get_node("../../Mooks").add_child(mook)

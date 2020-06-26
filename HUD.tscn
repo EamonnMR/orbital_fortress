@@ -1,18 +1,22 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Radar.gd" type="Script" id=1]
+[ext_resource path="res://Scores.gd" type="Script" id=2]
 
 [node name="HUD" type="CanvasLayer"]
 layer = -1
 
-[node name="team0score" type="HBoxContainer" parent="."]
+[node name="Scores" type="Node2D" parent="."]
+script = ExtResource( 2 )
+
+[node name="team0score" type="HBoxContainer" parent="Scores"]
 margin_right = 1024.0
 margin_bottom = 45.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="team0score"]
+[node name="Label" type="Label" parent="Scores/team0score"]
 margin_top = 15.0
 margin_right = 110.0
 margin_bottom = 29.0
@@ -21,7 +25,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label2" type="Label" parent="team0score"]
+[node name="score" type="Label" parent="Scores/team0score"]
 margin_left = 114.0
 margin_top = 15.0
 margin_right = 122.0
@@ -31,7 +35,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ProgressBar" type="ProgressBar" parent="team0score"]
+[node name="ProgressBar" type="ProgressBar" parent="Scores/team0score"]
 margin_left = 126.0
 margin_right = 226.0
 margin_bottom = 45.0
@@ -41,17 +45,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="team0score2" type="HBoxContainer" parent="."]
+[node name="team1score" type="HBoxContainer" parent="Scores"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -226.0
+margin_left = 798.0
+margin_right = 1024.0
 margin_bottom = 45.0
 size_flags_horizontal = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="team0score2"]
+[node name="Label" type="Label" parent="Scores/team1score"]
 margin_top = 15.0
 margin_right = 110.0
 margin_bottom = 29.0
@@ -60,7 +65,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label2" type="Label" parent="team0score2"]
+[node name="score" type="Label" parent="Scores/team1score"]
 margin_left = 114.0
 margin_top = 15.0
 margin_right = 122.0
@@ -70,7 +75,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ProgressBar" type="ProgressBar" parent="team0score2"]
+[node name="ProgressBar" type="ProgressBar" parent="Scores/team1score"]
 margin_left = 126.0
 margin_right = 226.0
 margin_bottom = 45.0

@@ -8,19 +8,39 @@ const MAX_PEERS = 12
 
 const HOST_ID = 1 # TODO: might simplify the code if we use 1 here, if 1 is always the ID of the server for RPC
 
+const LEVEL_UP = 100
+
 var player_types = {
-	0: {"name": "human", "scene": load("res://player_human_med.tscn")},
-	1: {"name": "robot", "scene": load("res://player_void_med.tscn")},
-	2: {"name": "monster", "scene": load("res://player_bio_med.tscn")},
-	3: {"name": "alien", "scene": load("res://player_ufo_med.tscn")},
+	0: {"name": "human", "scene": [
+		#load("res://ships/players/human/light.tscn"),
+		#load("res://ships/players/human/med.tscn"),
+		#load("res://ships/players/human/heavy.tscn")
+	]},
+	1: {"name": "robot", "scenes": [
+		load("res://ships/player/robot/robot_light.tscn"),
+		#load("res://player_robot_med.tscn"),
+		#load("res://player_robot_heavy.tscn")
+	]},
+	2: {"name": "monster", "scene": [
+		#load("res://player_monster_light.tscn"),
+		#load("res://player_monster_med.tscn"),
+		#load("res://player_monster_heavy.tscn")
+	]},
+	3: {"name": "alien", "scenes": [
+		#load("res://player_alien_light.tscn"),
+		#load("res://player_alien_med.tscn"),
+		#load("res://player_alien_heavy.tscn")
+	]}
 }
 
 var teams = {
 	0: {
-		"score": 0
+		"score": 0,
+		"level": 0
 	},
 	1: {
-		"score": 0
+		"score": 0,
+		"level": 0
 	}
 }
 
@@ -41,6 +61,7 @@ signal connection_failed()
 signal connection_succeeded()
 signal game_ended()
 signal game_error(what)
+signal scores_updated()
 
 # Callback from SceneTree.
 func _player_connected(id):
@@ -143,7 +164,9 @@ sync func pre_start_game(spawn_points):
 
 func spawn_player(id, position):
 	# TODO: Load a list of these, switch based on player id
-	var player_scene = player_types[players[id]["ship_choice"]]["scene"]
+	var player_info = players[id]
+	var level = teams[player_info["team"]]["level"]
+	var player_scene = player_types[player_info["ship_choice"]]["scenes"][level]
 	# TODO: Instance differently based on players[p_id]["ship_choice"]
 	var player = player_scene.instance()
 
@@ -277,3 +300,9 @@ func other_team(team):
 		0: 1,
 		1: 0
 	}[team]
+
+func add_score(team, amount):
+	print("Add Score")
+	teams[team]["score"] += amount
+	# TODO: If score crosses a threshold, upgrade everything
+
