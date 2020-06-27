@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://ships/player/robot/robot_med.png" type="Texture" id=1]
+[ext_resource path="res://ships/player/robot/robot_base.tscn" type="PackedScene" id=2]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 16.3005
+height = 15.1036
+
+[node name="player" instance=ExtResource( 2 )]
+
+[node name="Sprite" type="Sprite" parent="sprite" index="0"]
+texture = ExtResource( 1 )
+vframes = 2
+hframes = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="5"]
+position = Vector2( -0.203907, -2.24298 )
+shape = SubResource( 1 )

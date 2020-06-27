@@ -18,7 +18,7 @@ var player_types = {
 	]},
 	1: {"name": "robot", "scenes": [
 		load("res://ships/player/robot/robot_light.tscn"),
-		#load("res://player_robot_med.tscn"),
+		load("res://ships/player/robot/robot_med.tscn"),
 		#load("res://player_robot_heavy.tscn")
 	]},
 	2: {"name": "monster", "scene": [
@@ -36,11 +36,11 @@ var player_types = {
 var teams = {
 	0: {
 		"score": 0,
-		"level": 0
+		"level": 1
 	},
 	1: {
 		"score": 0,
-		"level": 0
+		"level": 1
 	}
 }
 
