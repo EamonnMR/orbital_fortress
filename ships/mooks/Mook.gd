@@ -50,13 +50,13 @@ func _physics_process(delta):
 func _push_vars_to_net():
 	rset("puppet_velocity", velocity)
 	rset("puppet_pos", position)
-	rset("puppet_rotation", $sprite.rotation)
+	rset("puppet_rotation", $sprite/Sprite.rotation)
 	rset("puppet_health", health)
 
 func _get_vars_from_net():
 	position = puppet_pos
 	velocity = puppet_velocity
-	$sprite.rotation = puppet_rotation
+	$sprite/Sprite.rotation = puppet_rotation
 	health = puppet_health
 
 sync func destroyed():

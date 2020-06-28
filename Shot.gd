@@ -20,7 +20,6 @@ func _on_Shot_body_entered(body):
 		hit_target(body)
 		
 func qualify_hit(body):
-	print("Try to collide: ", body, "team: ", team, ", body.team: ", body.team, ", from_player: ", from_player, ", body.name: ", body.name)
 	return body.name != str(from_player) and body.team != team
 
 func hit_target(target):
