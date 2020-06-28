@@ -3,6 +3,7 @@ extends Area2D
 export var team = 0
 var max_health = 100
 var health
+var mook_counter = 0
 
 func _ready():
 	health = max_health
@@ -29,5 +30,7 @@ sync func spawn_mooks():
 			var mook = preload("res://ships/mooks/Mook.tscn").instance()
 			mook.team = team
 			mook.position = position + (Vector2(10, 10) * i)
+			mook.set_name("mook_t_" + str(team) + "_id_" + str(mook_counter))
 			get_node("../../Mooks").add_child(mook)
 			get_node("../../../HUD/Radar").add_item(mook)
+			mook_counter += 1
