@@ -8,7 +8,8 @@ const MAX_PEERS = 12
 
 const HOST_ID = 1 # TODO: might simplify the code if we use 1 here, if 1 is always the ID of the server for RPC
 
-const LEVEL_UP = 100
+const LEVEL_UP = 10
+const LEVEL_CAP = 1
 
 var player_types = {
 	0: {"name": "human", "scene": [
@@ -33,16 +34,7 @@ var player_types = {
 	]}
 }
 
-var teams = {
-	0: {
-		"score": 0,
-		"level": 1
-	},
-	1: {
-		"score": 0,
-		"level": 1
-	}
-}
+var teams = {}
 
 var player_name = "The Warrior"
 var world = null
@@ -145,6 +137,16 @@ sync func pre_start_game(spawn_points):
 	hud = load("res://HUD.tscn").instance()
 	get_tree().get_root().add_child(hud)
 	
+	teams = { 
+		0: {
+			"score": 0,
+			"level": 0
+		},
+		1: {
+			"score": 0,
+			"level": 0
+		}
+	}
 		
 	var background = load("res://Background.tscn").instance()
 	get_tree().get_root().add_child(background)
@@ -154,7 +156,11 @@ sync func pre_start_game(spawn_points):
 	get_tree().get_root().get_node("Lobby").hide()
 
 	for p_id in spawn_points:
-		spawn_player(p_id, world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position)
+		spawn_player(
+			p_id,
+			world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position,
+			Vector2(0,0),
+			0)
 
 	if not get_tree().is_network_server():
 		# Tell server we are ready to start.
@@ -162,7 +168,7 @@ sync func pre_start_game(spawn_points):
 	elif players.size() == 0:
 		post_start_game()
 
-func spawn_player(id, position):
+func spawn_player(id, position, velocity, direction):
 	# TODO: Load a list of these, switch based on player id
 	var player_info = players[id]
 	var level = teams[player_info["team"]]["level"]
@@ -172,6 +178,7 @@ func spawn_player(id, position):
 
 	player.set_name(str(id)) # Use unique ID as node name.
 	player.position=position
+	player.get_node("sprite").rotation = direction
 	player.set_network_master(id) #set unique id as master.
 
 	player.set_player_name(players[id]["name"])
@@ -179,6 +186,7 @@ func spawn_player(id, position):
 
 	world.get_node("Players").add_child(player)
 	hud.get_node("Radar").add_item(player)
+	player_info["entity"] = player
 
 remote func post_start_game():
 	get_tree().set_pause(false) # Unpause and unleash the game!
@@ -287,7 +295,7 @@ func _respawn_player():
 	)
 
 sync func _sync_respawn_player(id):
-	spawn_player(id, Vector2(0,0))
+	spawn_player(id, Vector2(0,0), Vector2(0,0), 0)
 
 func add_respawn_timer():
 	# TODO: Stick this right into world.tscn and show/hide it?
@@ -304,5 +312,21 @@ func other_team(team):
 func add_score(team, amount):
 	print("Add Score")
 	teams[team]["score"] += amount
+	if teams[team]["score"] > LEVEL_UP * (1 + teams[team]["level"]):
+		level_up_team(team)
+		
 	# TODO: If score crosses a threshold, upgrade everything
 
+func level_up_team(team):
+	if teams[team]["level"] < LEVEL_CAP:
+		teams[team]["level"] += 1
+		for player_id in players:
+			var player = players[player_id]
+			if player["team"] == team:
+				var player_ent = player["entity"]
+				if is_instance_valid(player_ent):
+					var position = player_ent.position
+					var velocity = player_ent.velocity
+					var rotation = player_ent.get_node("sprite").rotation
+					player_ent.queue_free()
+					spawn_player(player_id, position, velocity, rotation)

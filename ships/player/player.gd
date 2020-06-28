@@ -149,6 +149,7 @@ func set_player_name(new_name):
 func _ready():
 	health = max_health
 	puppet_pos = position
+	$sprite/Sprite.frame = team * $sprite/Sprite.hframes
 
 	if (is_network_master()):
 		$Camera2D.make_current()
