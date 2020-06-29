@@ -1,4 +1,4 @@
-extends "res://player.gd"
+extends "res://ships/player/player.gd"
 
 func _handle_acceleration(delta):
 	return _handle_acceleration_inertialess(delta)

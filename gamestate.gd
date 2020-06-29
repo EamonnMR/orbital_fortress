@@ -9,28 +9,28 @@ const MAX_PEERS = 12
 const HOST_ID = 1 # TODO: might simplify the code if we use 1 here, if 1 is always the ID of the server for RPC
 
 const LEVEL_UP = 10
-const LEVEL_CAP = 1
+const LEVEL_CAP = 2
 
 var player_types = {
-	0: {"name": "human", "scene": [
-		#load("res://ships/players/human/light.tscn"),
-		#load("res://ships/players/human/med.tscn"),
-		#load("res://ships/players/human/heavy.tscn")
+	0: {"name": "human", "scenes": [
+		load("res://ships/player/human/human_light.tscn"),
+		load("res://ships/player/human/human_med.tscn"),
+		load("res://ships/player/human/human_heavy.tscn")
 	]},
 	1: {"name": "robot", "scenes": [
 		load("res://ships/player/robot/robot_light.tscn"),
 		load("res://ships/player/robot/robot_med.tscn"),
-		#load("res://player_robot_heavy.tscn")
+		load("res://ships/player/robot/robot_heavy.tscn")
 	]},
-	2: {"name": "monster", "scene": [
-		#load("res://player_monster_light.tscn"),
-		#load("res://player_monster_med.tscn"),
-		#load("res://player_monster_heavy.tscn")
+	2: {"name": "monster", "scenes": [
+		load("res://ships/player/monster/monster_light.tscn"),
+		load("res://ships/player/monster/monster_med.tscn"),
+		load("res://ships/player/monster/monster_heavy.tscn")
 	]},
 	3: {"name": "alien", "scenes": [
-		#load("res://player_alien_light.tscn"),
-		#load("res://player_alien_med.tscn"),
-		#load("res://player_alien_heavy.tscn")
+		load("res://ships/player/alien/alien_light.tscn"),
+		load("res://ships/player/alien/alien_med.tscn"),
+		load("res://ships/player/alien/alien_heavy.tscn")
 	]}
 }
 
