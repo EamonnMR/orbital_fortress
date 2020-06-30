@@ -1,13 +1,4 @@
-# Multiplayer Bomber
+Project Orinoco: MOBA with Asteroids Mechanics
 
-A multiplayer implementation of the classical bomberman game.
-One of the players should press "host", while the other
-should type in his address and press "play". 
+Uses graphics by Surt and Danc. Obviously unfinished. Code is GPL unless otherwise specified.
 
-Language: GDScript
-
-Renderer: GLES 2
-
-## Screenshots
-
-![Screenshot](screenshots/bomber.png)
