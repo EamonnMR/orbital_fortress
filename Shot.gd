@@ -27,5 +27,5 @@ func hit_target(target):
 		if target.has_method("take_damage"):
 			# TODO: Local version of take damage... worth it?
 			target.rpc("take_damage", from_player, damage)
-	queue_free()
-	# TODO: Sweet explosion
+			queue_free()
+			# TODO: Sweet explosion

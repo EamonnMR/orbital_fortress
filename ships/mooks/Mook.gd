@@ -105,8 +105,9 @@ func _handle_shooting():
 	):
 		can_shoot = false
 		$reload_timer.start()
-		
-		rpc("shoot", "mook shot", position, $sprite/Sprite.rotation, get_tree().get_network_unique_id())
+		for shot_emerge_point in $sprite/shot_emerge_points.get_children():
+			var pos = shot_emerge_point.get_global_position()
+			rpc("shoot", "mook shot", pos, $sprite/Sprite.rotation, get_tree().get_network_unique_id())
 
 func _constrained_point(max_turn, position):
 	var ideal_face = fmod(get_angle_to(target.position) + PI / 2, PI * 2) # TODO: Global Position?
