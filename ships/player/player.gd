@@ -14,6 +14,7 @@ var max_health = 100
 var health
 var inertialess_speed = 0
 var team = null
+var health_regen = 0
 
 puppet var puppet_pos = Vector2()
 puppet var puppet_velocity = Vector2()
@@ -127,6 +128,7 @@ func _physics_process(delta):
 		_limit_speed()
 		_handle_shooting()
 		_push_vars_to_net()
+		_update_health(delta)
 	else:
 		_get_vars_from_net()
 
@@ -160,3 +162,8 @@ func _ready():
 
 func _on_reload_timer_timeout():
 	can_shoot = true
+	
+func _update_health(delta):
+	health += health_regen * delta
+	if health > max_health:
+		health = max_health
