@@ -90,6 +90,8 @@ func _handle_rotation(delta):
 	#	#rotation = _rotate_to_cancel_velocity()
 
 	$sprite.rotation += rotation * turn_rate * delta
+	
+	return rotation
 
 func _handle_acceleration(delta):
 	if Input.is_action_pressed("move_up"):
@@ -152,12 +154,19 @@ func set_player_name(new_name):
 	get_node("label").set_text(new_name)
 
 func _ready():
-	health = max_health
+	_initial_health()
 	puppet_pos = position
-	$sprite/Sprite.frame = team * $sprite/Sprite.hframes
-
+	_initial_frame()
+	
 	if (is_network_master()):
 		$Camera2D.make_current()
+
+func _initial_health():
+	health = max_health
+
+func _initial_frame():
+		$sprite/Sprite.frame = team * $sprite/Sprite.hframes
+
 
 
 func _on_reload_timer_timeout():

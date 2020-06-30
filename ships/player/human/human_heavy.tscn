@@ -1,12 +1,14 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://ships/player/human/human_base.tscn" type="PackedScene" id=1]
 [ext_resource path="res://ships/player/human/cruiser_64x64_surt.png" type="Texture" id=2]
+[ext_resource path="res://ships/player/human/human_heavy.gd" type="Script" id=3]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 26.9608
 
 [node name="player" instance=ExtResource( 1 )]
+script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="sprite" index="0"]
 texture = ExtResource( 2 )
