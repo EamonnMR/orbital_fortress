@@ -1,7 +1,7 @@
 extends Area2D
 
 export var team = 0
-var max_health = 100
+var max_health = 5000
 var health
 var mook_counter = 0
 

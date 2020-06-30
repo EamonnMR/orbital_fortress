@@ -8,7 +8,7 @@ const MAX_PEERS = 12
 
 const HOST_ID = 1 # TODO: might simplify the code if we use 1 here, if 1 is always the ID of the server for RPC
 
-const LEVEL_UP = 10
+const LEVEL_UP = 100
 const LEVEL_CAP = 2
 
 var player_types = {

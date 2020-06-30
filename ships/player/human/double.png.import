@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/shot.png-512ef04e690a6ca19b7671599d74b0d1.stex"
+path="res://.import/double.png-a79817dc4166baa3c0974d83063593a8.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ships/player/human/shot.png"
-dest_files=[ "res://.import/shot.png-512ef04e690a6ca19b7671599d74b0d1.stex" ]
+source_file="res://ships/player/human/double.png"
+dest_files=[ "res://.import/double.png-a79817dc4166baa3c0974d83063593a8.stex" ]
 
 [params]
 

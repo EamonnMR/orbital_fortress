@@ -41,6 +41,7 @@ margin_right = 226.0
 margin_bottom = 45.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_vertical = 1
+max_value = 300.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -81,6 +82,7 @@ margin_right = 226.0
 margin_bottom = 45.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_vertical = 1
+max_value = 300.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
