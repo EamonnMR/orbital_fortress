@@ -5,7 +5,7 @@ export var accel = 75;
 export var turn_rate = 3;
 export var points_reward = 50
 
-var basic_shot = preload("res://Shot.tscn")
+var basic_shot = null
 
 var velocity = Vector2()
 var can_shoot = true
@@ -20,7 +20,8 @@ puppet var puppet_velocity = Vector2()
 puppet var puppet_rotation = 0.0
 puppet var puppet_health = 0
 
-# Use sync because it will be called everywhere
+func _init():
+	basic_shot = preload("res://ships/mooks/basic_shot.tscn")
 
 sync func shoot(name, pos, direction, by_who):
 	var shot = basic_shot.instance()
@@ -51,7 +52,9 @@ func _handle_shooting():
 		$reload_timer.start()
 		
 		var name = get_name() + str(bomb_index)
-		rpc("shoot", name, position, $sprite.rotation, get_tree().get_network_unique_id())
+		for shot_emerge_point in $sprite/shot_emerge_points.get_children():
+			var pos = shot_emerge_point.get_global_position()
+			rpc("shoot", name, pos, $sprite.rotation, get_tree().get_network_unique_id())
 
 		
 

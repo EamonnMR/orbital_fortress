@@ -5,3 +5,5 @@
 
 [node name="player" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+
+[node name="Node2D" type="Node2D" parent="sprite/shot_emerge_points" index="0"]

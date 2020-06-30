@@ -13,6 +13,12 @@ texture = ExtResource( 2 )
 vframes = 2
 hframes = 4
 
+[node name="Node2D" type="Node2D" parent="sprite/shot_emerge_points" index="0"]
+position = Vector2( -31.3591, -24.251 )
+
+[node name="Node2D2" type="Node2D" parent="sprite/shot_emerge_points" index="1"]
+position = Vector2( 31.359, -24.251 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="5"]
 position = Vector2( -0.418121, 4.59934 )
 shape = SubResource( 1 )

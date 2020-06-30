@@ -34,5 +34,7 @@ autostart = true
 
 [node name="sprite" type="Node2D" parent="."]
 
+[node name="shot_emerge_points" type="Node2D" parent="sprite"]
+
 [node name="HealthBar" parent="." instance=ExtResource( 2 )]
 [connection signal="timeout" from="reload_timer" to="." method="_on_reload_timer_timeout"]

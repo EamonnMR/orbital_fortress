@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/shot.png-9d5126deb1fd9135cad1590f1d212cb3.stex"
+path="res://.import/medium_flame.png-e08fda513a8a98feeb2516358d167c6b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://shot.png"
-dest_files=[ "res://.import/shot.png-9d5126deb1fd9135cad1590f1d212cb3.stex" ]
+source_file="res://ships/player/monster/medium_flame.png"
+dest_files=[ "res://.import/medium_flame.png-e08fda513a8a98feeb2516358d167c6b.stex" ]
 
 [params]
 

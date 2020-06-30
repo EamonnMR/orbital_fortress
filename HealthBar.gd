@@ -9,3 +9,7 @@ func _ready():
 
 func _process(delta):
 	$ProgressBar.value = parent.health
+	if(parent.max_health == parent.health):
+		$ProgressBar.hide()
+	else:
+		$ProgressBar.show()

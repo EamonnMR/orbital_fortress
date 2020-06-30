@@ -19,6 +19,14 @@ script = ExtResource( 1 )
 texture = ExtResource( 3 )
 vframes = 2
 
+[node name="shot_emerge_points" type="Node2D" parent="sprite"]
+
+[node name="Node2D" type="Node2D" parent="sprite/shot_emerge_points"]
+position = Vector2( -11.7919, 8.13809 )
+
+[node name="Node2D2" type="Node2D" parent="sprite/shot_emerge_points"]
+position = Vector2( 11.792, 8.138 )
+
 [node name="shape" type="CollisionShape2D" parent="."]
 position = Vector2( -0.263519, -0.263519 )
 shape = SubResource( 1 )

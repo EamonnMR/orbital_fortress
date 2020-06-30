@@ -14,6 +14,9 @@ texture = ExtResource( 2 )
 vframes = 2
 hframes = 4
 
+[node name="Node2D" type="Node2D" parent="sprite/shot_emerge_points" index="0"]
+position = Vector2( 0, -6.14552 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="5"]
 position = Vector2( -0.35849, -3.58487 )
 rotation = 1.5716
