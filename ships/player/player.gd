@@ -15,11 +15,15 @@ var health
 var inertialess_speed = 0
 var team = null
 var health_regen = 0
+var is_thrusting = false
+var frame_rotation = 0
 
 puppet var puppet_pos = Vector2()
 puppet var puppet_velocity = Vector2()
-puppet var puppet_rotation = 0.0
+puppet var puppet_sprite_rotation = 0.0
 puppet var puppet_health = 0
+puppet var puppet_is_thrusting = false
+puppet var puppet_frame_rotation = 0
 
 func _init():
 	basic_shot = preload("res://ships/mooks/basic_shot.tscn")
@@ -81,21 +85,21 @@ func _rotate_to_cancel_velocity():
 	return 0
 	
 func _handle_rotation(delta):
-	var rotation = 0
+	frame_rotation = 0
 	if Input.is_action_pressed("move_left"):
-		rotation = -1
+		frame_rotation = -1
 	if Input.is_action_pressed("move_right"):
-		rotation = 1
+		frame_rotation = 1
 	#if Input.is_action_pressed("move_down"):
 	#	#rotation = _rotate_to_cancel_velocity()
 
-	$sprite.rotation += rotation * turn_rate * delta
+	$sprite.rotation += frame_rotation * turn_rate * delta
 	
-	return rotation
-
 func _handle_acceleration(delta):
+	is_thrusting = false
 	if Input.is_action_pressed("move_up"):
 		velocity += Vector2(0, -1 * accel * delta).rotated($sprite.rotation)
+		is_thrusting = true
 
 func _handle_acceleration_inertialess(delta):
 	# Replace the above func with a call to this one if you want an inertialess ship
@@ -113,14 +117,18 @@ func _handle_acceleration_inertialess(delta):
 func _push_vars_to_net():
 		rset("puppet_velocity", velocity)
 		rset("puppet_pos", position)
-		rset("puppet_rotation", $sprite.rotation)
+		rset("puppet_sprite_rotation", $sprite.rotation)
 		rset("puppet_health", health)
+		rset("puppet_is_thrusting", is_thrusting)
+		rset("puppet_frame_rotation", frame_rotation)
 
 func _get_vars_from_net():
 	position = puppet_pos
 	velocity = puppet_velocity
-	$sprite.rotation = puppet_rotation
+	$sprite.rotation = puppet_sprite_rotation
 	health = puppet_health
+	is_thrusting = puppet_is_thrusting
+	frame_rotation = puppet_frame_rotation
 
 func _physics_process(delta):
 	if is_network_master():

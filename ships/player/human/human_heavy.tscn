@@ -13,7 +13,7 @@ script = ExtResource( 3 )
 [node name="Sprite" type="Sprite" parent="sprite" index="0"]
 texture = ExtResource( 2 )
 vframes = 2
-hframes = 6
+hframes = 9
 
 [node name="Node2D" type="Node2D" parent="sprite/shot_emerge_points" index="0"]
 position = Vector2( -15.0565, -28.679 )

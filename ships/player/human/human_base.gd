@@ -21,19 +21,17 @@ func _ready():
 
 
 func _on_Timer_timeout():
-	if toggle_engine:
-		toggle_engine = 0
+	if toggle_engine == 1:
+		toggle_engine = 2
 	else:
 		toggle_engine = 1
 
-func _handle_rotation(delta):
-	var rotation = ._handle_rotation(delta)
-	if rotation < 0:
-		sub_frame = 2
-	elif rotation > 0:
-		sub_frame = 4
+func _process(delta):
+	if frame_rotation < 0:
+		sub_frame = 3
+	elif frame_rotation > 0:
+		sub_frame = 6
 	else:
 		sub_frame = 0
 	
-	$sprite/Sprite.frame = base_frame + sub_frame + toggle_engine
-	return rotation
+	$sprite/Sprite.frame = base_frame + sub_frame + (toggle_engine if is_thrusting else 0)
