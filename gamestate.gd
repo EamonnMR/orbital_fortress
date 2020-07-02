@@ -148,8 +148,8 @@ sync func pre_start_game(spawn_points):
 		}
 	}
 		
-	var background = load("res://Background.tscn").instance()
-	get_tree().get_root().add_child(background)
+	# var background = load("res://Background.tscn").instance()
+	# get_tree().get_root().add_child(background)
 	
 	print(get_tree().get_root().get_children())
 
@@ -158,7 +158,7 @@ sync func pre_start_game(spawn_points):
 	for p_id in spawn_points:
 		spawn_player(
 			p_id,
-			world.get_node("SpawnPoints/" + str(spawn_points[p_id])).position,
+			world.get_node("Viewport/SpawnPoints/" + str(spawn_points[p_id])).position,
 			Vector2(0,0),
 			0)
 
@@ -184,7 +184,7 @@ func spawn_player(id, position, velocity, direction):
 	player.set_player_name(players[id]["name"])
 	player.team = players[id]["team"]
 
-	world.get_node("Players").add_child(player)
+	world.get_node("Viewport/Players").add_child(player)
 	hud.get_node("Radar").add_item(player)
 	player_info["entity"] = player
 
@@ -301,7 +301,7 @@ func add_respawn_timer():
 	# TODO: Stick this right into world.tscn and show/hide it?
 	var timer = preload("res://RespawnCountdown.tscn").instance()
 	timer.connect("completed", self, "_respawn_player")	
-	world.add_child(timer)
+	get_node("/root").add_child(timer)
 	
 func other_team(team):
 	return {

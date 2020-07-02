@@ -13,7 +13,7 @@ func radar_scale(position):
 	return (position / 25) + get_size() / 2
 
 func _ready():
-	for base in get_node("../../World/Bases").get_children():
+	for base in get_node("/root/World/Viewport/Bases").get_children():
 		add_item(base)
 
 func _process(delta):

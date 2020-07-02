@@ -1,5 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
+[ext_resource path="res://world.gd" type="Script" id=1]
+[ext_resource path="res://HUD.tscn" type="PackedScene" id=2]
 [ext_resource path="res://montserrat.otf" type="DynamicFontData" id=4]
 [ext_resource path="res://Starbase.tscn" type="PackedScene" id=5]
 
@@ -7,62 +9,75 @@
 size = 44
 font_data = ExtResource( 4 )
 
-[node name="World" type="CanvasLayer"]
-layer = 0
-follow_viewport_enable = true
+[node name="World" type="Node2D"]
 
-[node name="SpawnPoints" type="Node2D" parent="."]
+[node name="HUD" parent="." instance=ExtResource( 2 )]
 
-[node name="0" type="Position2D" parent="SpawnPoints"]
+[node name="WorldSprite" type="Sprite" parent="."]
+position = Vector2( 510.045, 321.098 )
+z_index = -10
+script = ExtResource( 1 )
+
+[node name="HUD4" parent="." instance=ExtResource( 2 )]
+
+[node name="Viewport" type="Viewport" parent="."]
+size = Vector2( 4000, 4000 )
+handle_input_locally = false
+render_target_v_flip = true
+render_target_update_mode = 3
+
+[node name="SpawnPoints" type="Node2D" parent="Viewport"]
+
+[node name="0" type="Position2D" parent="Viewport/SpawnPoints"]
 position = Vector2( 72, 72 )
 
-[node name="1" type="Position2D" parent="SpawnPoints"]
+[node name="1" type="Position2D" parent="Viewport/SpawnPoints"]
 position = Vector2( 264, 216 )
 
-[node name="2" type="Position2D" parent="SpawnPoints"]
+[node name="2" type="Position2D" parent="Viewport/SpawnPoints"]
 position = Vector2( 72, 456 )
 
-[node name="3" type="Position2D" parent="SpawnPoints"]
+[node name="3" type="Position2D" parent="Viewport/SpawnPoints"]
 position = Vector2( 360, 552 )
 
-[node name="4" type="Position2D" parent="SpawnPoints"]
+[node name="4" type="Position2D" parent="Viewport/SpawnPoints"]
 position = Vector2( 840, 360 )
 
-[node name="5" type="Position2D" parent="SpawnPoints"]
+[node name="5" type="Position2D" parent="Viewport/SpawnPoints"]
 position = Vector2( 456, 264 )
 
-[node name="6" type="Position2D" parent="SpawnPoints"]
+[node name="6" type="Position2D" parent="Viewport/SpawnPoints"]
 position = Vector2( 696, 264 )
 
-[node name="7" type="Position2D" parent="SpawnPoints"]
+[node name="7" type="Position2D" parent="Viewport/SpawnPoints"]
 position = Vector2( 744, 456 )
 
-[node name="8" type="Position2D" parent="SpawnPoints"]
+[node name="8" type="Position2D" parent="Viewport/SpawnPoints"]
 position = Vector2( 312, 456 )
 
-[node name="9" type="Position2D" parent="SpawnPoints"]
+[node name="9" type="Position2D" parent="Viewport/SpawnPoints"]
 position = Vector2( 696, 72 )
 
-[node name="10" type="Position2D" parent="SpawnPoints"]
+[node name="10" type="Position2D" parent="Viewport/SpawnPoints"]
 position = Vector2( 504, 72 )
 
-[node name="11" type="Position2D" parent="SpawnPoints"]
+[node name="11" type="Position2D" parent="Viewport/SpawnPoints"]
 position = Vector2( 936, 72 )
 
-[node name="Bases" type="Node2D" parent="."]
+[node name="Bases" type="Node2D" parent="Viewport"]
 
-[node name="Starbase 0" parent="Bases" instance=ExtResource( 5 )]
+[node name="Starbase 0" parent="Viewport/Bases" instance=ExtResource( 5 )]
 position = Vector2( -1341.27, -1255.85 )
 
-[node name="Starbase 1" parent="Bases" instance=ExtResource( 5 )]
+[node name="Starbase 1" parent="Viewport/Bases" instance=ExtResource( 5 )]
 position = Vector2( 1477.33, 1613.19 )
 team = 1
 
-[node name="Mooks" type="Node2D" parent="."]
+[node name="Mooks" type="Node2D" parent="Viewport"]
 
-[node name="Players" type="Node2D" parent="."]
+[node name="Players" type="Node2D" parent="Viewport"]
 
-[node name="Winner" type="Label" parent="."]
+[node name="Winner" type="Label" parent="Viewport"]
 visible = false
 margin_top = 0.947998
 margin_right = 1031.0
@@ -82,7 +97,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ExitGame" type="Button" parent="Winner"]
+[node name="ExitGame" type="Button" parent="Viewport/Winner"]
 margin_left = 384.0
 margin_top = 408.0
 margin_right = 649.0
@@ -94,3 +109,7 @@ text = "EXIT GAME"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="HUD5" parent="Viewport" instance=ExtResource( 2 )]
+
+[node name="HUD3" parent="." instance=ExtResource( 2 )]
