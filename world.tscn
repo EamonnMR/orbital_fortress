@@ -101,10 +101,10 @@ __meta__ = {
 }
 
 [node name="Radar" type="ColorRect" parent="HUD"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -167.0
-margin_right = 167.0
+margin_left = 14.4202
+margin_top = 418.185
+margin_right = 181.42
+margin_bottom = 585.185
 color = Color( 0, 0.199219, 0.0498047, 1 )
 script = ExtResource( 2 )
 __meta__ = {
