@@ -1,13 +1,13 @@
-extends Sprite
+extends Node2D
+
+func switch_viewport(viewport: Viewport):
+	var rtt = viewport.get_texture()
+	$WorldSprite.texture = rtt
 
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	var rtt = get_node("../Viewport").get_texture()
-	self.texture = rtt
+	$WorldSprite.position = Vector2(
+		ProjectSettings.get_setting("display/window/size/width") / 2,
+		ProjectSettings.get_setting("display/window/size/height") / 2
+	)
+	switch_viewport($Viewport)
