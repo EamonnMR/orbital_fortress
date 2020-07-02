@@ -68,11 +68,9 @@ master func take_damage(_by_who, amount):
 	health -= amount
 	if(health) <= 0:
 		rpc("destroyed")
-
-func distance_comparitor(lval, rval):
-	var ldist = lval.position.distance_to(self.position)
-	var rdist = rval.position.distance_to(self.position)
-	return ldist < rdist
+		
+func comparitor(lval, rval):
+	return ai.distance_comparitor(self, lval, rval)
 
 func _find_target():
 	var nodes = []
@@ -82,7 +80,7 @@ func _find_target():
 	nodes += mooks
 	var bases = get_node("../../Bases").get_children()
 	nodes += bases
-	nodes.sort_custom(self, "distance_comparitor")
+	nodes.sort_custom(self, "comparitor")
 	for node in nodes:
 		if position.distance_to(node.position) > max_target_distance:
 			break

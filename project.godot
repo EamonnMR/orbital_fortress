@@ -23,6 +23,7 @@ config/icon="res://asteroid_33x33.png"
 [autoload]
 
 gamestate="*res://gamestate.gd"
+ai="*res://ai.gd"
 
 [debug]
 
