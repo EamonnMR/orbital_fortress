@@ -3,8 +3,7 @@
 [ext_resource path="res://Radar.gd" type="Script" id=1]
 [ext_resource path="res://Scores.gd" type="Script" id=2]
 
-[node name="HUD" type="CanvasLayer"]
-layer = -1
+[node name="HUD" type="Node2D"]
 
 [node name="Scores" type="Node2D" parent="."]
 script = ExtResource( 2 )
@@ -49,9 +48,10 @@ __meta__ = {
 [node name="team1score" type="HBoxContainer" parent="Scores"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = 798.0
-margin_right = 1024.0
-margin_bottom = 45.0
+margin_left = 778.447
+margin_top = 0.698334
+margin_right = 1021.45
+margin_bottom = 45.6983
 size_flags_horizontal = 0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -59,17 +59,17 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="Scores/team1score"]
 margin_top = 15.0
-margin_right = 110.0
+margin_right = 127.0
 margin_bottom = 29.0
-text = "Red Team Score: "
+text = "Yellow Team Score: "
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="score" type="Label" parent="Scores/team1score"]
-margin_left = 114.0
+margin_left = 131.0
 margin_top = 15.0
-margin_right = 122.0
+margin_right = 139.0
 margin_bottom = 29.0
 text = "0"
 __meta__ = {
@@ -77,8 +77,8 @@ __meta__ = {
 }
 
 [node name="ProgressBar" type="ProgressBar" parent="Scores/team1score"]
-margin_left = 126.0
-margin_right = 226.0
+margin_left = 143.0
+margin_right = 243.0
 margin_bottom = 45.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_vertical = 1
@@ -88,10 +88,10 @@ __meta__ = {
 }
 
 [node name="Radar" type="ColorRect" parent="."]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -167.0
-margin_right = 167.0
+margin_left = 14.4202
+margin_top = 418.185
+margin_right = 181.42
+margin_bottom = 585.185
 color = Color( 0, 0.199219, 0.0498047, 1 )
 script = ExtResource( 1 )
 __meta__ = {

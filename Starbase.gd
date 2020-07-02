@@ -32,5 +32,5 @@ sync func spawn_mooks():
 			mook.position = position + (Vector2(10, 10) * i)
 			mook.set_name("mook_t_" + str(team) + "_id_" + str(mook_counter))
 			get_node("/root/World/Viewport/Mooks").add_child(mook)
-			get_node("/root/HUD/Radar").add_item(mook)
+			get_node("/root/World/HUD/Radar").add_item(mook)
 			mook_counter += 1
