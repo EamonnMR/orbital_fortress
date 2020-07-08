@@ -20,7 +20,7 @@ func _on_Shot_body_entered(body):
 		hit_target(body)
 		
 func qualify_hit(body):
-	return body.name != str(from_player) and body.team != team
+	return "health" in body and body.name != str(from_player) and body.team != team
 
 func hit_target(target):
 	if is_network_master():
