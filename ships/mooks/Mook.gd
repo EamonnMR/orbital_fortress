@@ -107,29 +107,13 @@ func _handle_shooting():
 			var pos = shot_emerge_point.get_global_position()
 			rpc("shoot", "mook shot", pos, $sprite/Sprite.rotation, get_tree().get_network_unique_id())
 
-func _constrained_point(max_turn, position):
-	var ideal_face = fmod(get_angle_to(target.position) + PI / 2, PI * 2) # TODO: Global Position?
-	var ideal_turn = fmod(ideal_face - $sprite/Sprite.rotation, PI * 2)
-	if(ideal_turn > PI):
-		ideal_turn = fmod(ideal_turn - 2 * PI, 2 * PI)
-
-	elif(ideal_turn < -1 * PI):
-		ideal_turn = fmod(ideal_turn + 2 * PI, 2 * PI)
-	
-	max_turn = sign(ideal_turn) * max_turn  # Ideal turn in the right direction
-	
-	if(abs(ideal_turn) > abs(max_turn)):
-		return [max_turn, ideal_face]
-	else:
-		return [ideal_turn, ideal_face]
-
 func _handle_ai(delta):
 	if not target or not is_instance_valid(target) or target_is_default:
 		target = _find_target()
 	rotation_impulse = 0.0
 	ideal_face = null
 	if(target):
-		var impulse = _constrained_point(turn_rate * delta, target.position)
+		var impulse = ai._constrained_point(self, target, $sprite/Sprite.rotation, turn_rate * delta, target.position)
 		rotation_impulse = impulse[0]
 		ideal_face = impulse[1]
 
