@@ -8,5 +8,9 @@
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Node2D" parent="."]
+
+[node name="lifetime" type="Timer" parent="."]
+autostart = true
 [connection signal="area_entered" from="." to="." method="_on_Shot_body_entered"]
 [connection signal="body_entered" from="." to="." method="_on_Shot_body_entered"]
+[connection signal="timeout" from="lifetime" to="." method="_on_lifetime_timeout"]

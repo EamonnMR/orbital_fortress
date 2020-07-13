@@ -5,11 +5,13 @@ var damage = 20
 var from_player
 var team
 var velocity = Vector2()
+var lifetime = 1
 
 func _ready():
+	$lifetime.wait_time = lifetime
 	velocity += Vector2(0, -1 * move_speed).rotated($Sprite.rotation)
 
-func _process(delta):
+func _physics_process(delta):
 	position += delta * velocity
 
 func set_direction(rotation):
@@ -29,3 +31,12 @@ func hit_target(target):
 			target.rpc("take_damage", from_player, damage)
 			queue_free()
 			# TODO: Sweet explosion
+
+
+func _on_lifetime_timeout():
+	if is_network_master():
+		rpc("end_of_life")
+
+sync func end_of_life():
+	queue_free()
+
