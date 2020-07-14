@@ -3,7 +3,7 @@ extends KinematicBody2D
 export var max_speed = 170;
 export var accel = 75;
 export var turn_rate = 3;
-export var points_reward = 50
+export var points_reward = 100
 
 var basic_shot = null
 
@@ -174,8 +174,6 @@ func _initial_health():
 
 func _initial_frame():
 		$sprite/Sprite.frame = team * $sprite/Sprite.hframes
-
-
 
 func _on_reload_timer_timeout():
 	can_shoot = true

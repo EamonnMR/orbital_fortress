@@ -18,17 +18,17 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="Scores/team0score"]
 margin_top = 15.0
-margin_right = 110.0
+margin_right = 109.0
 margin_bottom = 29.0
-text = "Red Team Score: "
+text = "Red Team Level: "
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="score" type="Label" parent="Scores/team0score"]
-margin_left = 114.0
+margin_left = 113.0
 margin_top = 15.0
-margin_right = 122.0
+margin_right = 121.0
 margin_bottom = 29.0
 text = "0"
 __meta__ = {
@@ -36,8 +36,8 @@ __meta__ = {
 }
 
 [node name="ProgressBar" type="ProgressBar" parent="Scores/team0score"]
-margin_left = 126.0
-margin_right = 226.0
+margin_left = 125.0
+margin_right = 225.0
 margin_bottom = 45.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_vertical = 1
@@ -59,17 +59,17 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="Scores/team1score"]
 margin_top = 15.0
-margin_right = 110.0
+margin_right = 117.0
 margin_bottom = 29.0
-text = "Red Team Score: "
+text = "Lime Team Level: "
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="score" type="Label" parent="Scores/team1score"]
-margin_left = 114.0
+margin_left = 121.0
 margin_top = 15.0
-margin_right = 122.0
+margin_right = 129.0
 margin_bottom = 29.0
 text = "0"
 __meta__ = {
@@ -77,8 +77,8 @@ __meta__ = {
 }
 
 [node name="ProgressBar" type="ProgressBar" parent="Scores/team1score"]
-margin_left = 126.0
-margin_right = 226.0
+margin_left = 133.0
+margin_right = 233.0
 margin_bottom = 45.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_vertical = 1

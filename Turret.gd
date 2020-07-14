@@ -6,6 +6,7 @@ var health = 300
 var max_health = 300
 var target = null
 var can_shoot = false
+var points_reward = 500
 
 puppet var puppet_health = health
 var base_shot = preload("res://turret_shot.tscn")
@@ -77,6 +78,7 @@ master func take_damage(_by_who, amount):
 		rpc("destroyed")
 
 sync func destroyed():
+	gamestate.add_score(gamestate.other_team(team), points_reward)
 	queue_free()
 
 func _on_Timer_timeout():
