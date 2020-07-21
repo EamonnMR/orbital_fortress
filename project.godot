@@ -15,8 +15,10 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Multiplayer"
-config/description="Multiplayer"
+config/name="Orbital Fortress"
+config/description="Orbital Fortress
+
+MOBA with Asteroids mechanics"
 run/main_scene="res://lobby.tscn"
 config/icon="res://asteroid_33x33.png"
 

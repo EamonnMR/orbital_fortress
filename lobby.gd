@@ -9,6 +9,8 @@ extends Control
 # list and (either way) updates the on-screen
 # list.
 
+const GAME_TYPE = "orbital_fortress"
+
 func _ready():
 	# Called every time the node is added to the scene.
 	gamestate.connect("connection_failed", self, "_on_connection_failed")
@@ -24,6 +26,9 @@ func _ready():
 		$Connect/Name.text = desktop_path[desktop_path.size() - 2]
 
 func _on_host_pressed():
+	
+	register_game()
+	
 	if $Connect/Name.text == "":
 		$Connect/ErrorLabel.text = "Invalid name!"
 		return
@@ -93,6 +98,7 @@ func refresh_lobby():
 
 
 func _on_start_pressed():
+	deregister_game()
 	gamestate.begin_game()
 	
 func _on_add_bot_pressed():
@@ -122,3 +128,25 @@ func _add_lobby_player(player):
 	lobby_player.set_attributes(player, false)
 	lobby_player.connect("list_item_changed", self, "_on_update_player_config_in_lobby")
 	lobby_player.connect("remove_player", self, "_on_kick_player")
+
+func register_game():
+	var game_name = $Connect/Name.text + "'s game"
+	if $Connect/GameName.text:
+		game_name = $Connect/GameName.text
+	var query = JSON.print({
+		"port": gamestate.DEFAULT_PORT,
+		"name": game_name,
+		"type": gamestate.GAMETYPE
+	})
+	
+	var headers = ["Content-Type: application/json"]
+	$HTTPRequest.request("http://tracker.eamonnmr.com:8000/game", headers, false, HTTPClient.METHOD_PUT, query)
+	
+
+func deregister_game():
+	# $HTTPRequest.request("localhost:8000/game", [], false, HTTPClient.DELETE, null)
+	pass
+
+
+func _on_HTTPRequest_request_completed(result, response_code, headers, body):
+	print("Request completed! ", response_code, " ")

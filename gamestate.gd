@@ -9,6 +9,8 @@ const MAX_PEERS = 12
 const LEVEL_UP = 200
 const LEVEL_CAP = 2
 
+const GAMETYPE = "orbital_fortress"
+
 var player_types = {
 	0: {"name": "human", "scenes": [
 		load("res://ships/player/human/human_light.tscn"),
