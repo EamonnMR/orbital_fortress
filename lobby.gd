@@ -61,6 +61,7 @@ func _on_join_pressed():
 
 
 func _on_connection_success():
+	$Game_Browser.hide()
 	$Connect.hide()
 	$Players.show()
 
@@ -150,3 +151,20 @@ func deregister_game():
 
 func _on_HTTPRequest_request_completed(result, response_code, headers, body):
 	print("Request completed! ", response_code, " ")
+
+
+func _on_Find_Online_pressed():
+	$Connect.hide()
+	$Game_Browser.show()
+	$Connect/ErrorLabel.text = ""
+
+
+func _on_browser_Start_pressed():
+	# TODO: Get IP from selected
+	var ip = "127.0.0.1"
+	var player_name = $Connect/Name.text
+	gamestate.join_game(ip, player_name)
+
+func _on_browser_Return_pressed():
+		$Game_Browser.hide()
+		$Connect.show()
