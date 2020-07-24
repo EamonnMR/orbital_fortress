@@ -134,16 +134,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Start" type="Button" parent="Game_Browser"]
-margin_left = 243.382
-margin_top = 305.772
-margin_right = 368.382
-margin_bottom = 334.772
-rect_pivot_offset = Vector2( 125, 14.5 )
-size_flags_horizontal = 2
-size_flags_vertical = 2
-text = "Join"
-
 [node name="game_list" type="VBoxContainer" parent="Game_Browser"]
 margin_left = 29.0
 margin_top = 49.0
@@ -277,13 +267,11 @@ size_flags_vertical = 2
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
-[node name="HTTPRequest2" type="HTTPRequest" parent="."]
+[node name="HTTPRequest_get_games" type="HTTPRequest" parent="."]
 [connection signal="pressed" from="Players/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="Players/Add Bot" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="Game_Browser/Return" to="." method="_on_browser_Return_pressed"]
-[connection signal="pressed" from="Game_Browser/Start" to="." method="_on_browser_Start_pressed"]
 [connection signal="pressed" from="Connect/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="Connect/Join" to="." method="_on_join_pressed"]
 [connection signal="pressed" from="Connect/Find Online" to="." method="_on_Find_Online_pressed"]
-[connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
-[connection signal="request_completed" from="HTTPRequest2" to="." method="_on_HTTPRequest_request_completed"]
+[connection signal="request_completed" from="HTTPRequest_get_games" to="." method="_on_HTTPRequest_request_completed"]

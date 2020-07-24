@@ -10,6 +10,8 @@ extends Control
 # list.
 
 const GAME_TYPE = "orbital_fortress"
+# const TRACKER = "http://127.0.0.1:8000"  
+const TRACKER = "http://tracker.eamonnmr.com"
 
 func _ready():
 	# Called every time the node is added to the scene.
@@ -61,6 +63,7 @@ func _on_join_pressed():
 
 
 func _on_connection_success():
+	print("Connection success")
 	$Game_Browser.hide()
 	$Connect.hide()
 	$Players.show()
@@ -141,7 +144,7 @@ func register_game():
 	})
 	
 	var headers = ["Content-Type: application/json"]
-	$HTTPRequest.request("http://tracker.eamonnmr.com:8000/game", headers, false, HTTPClient.METHOD_PUT, query)
+	$HTTPRequest.request(TRACKER + "/game", headers, false, HTTPClient.METHOD_PUT, query)
 	
 
 func deregister_game():
@@ -150,20 +153,30 @@ func deregister_game():
 
 
 func _on_HTTPRequest_request_completed(result, response_code, headers, body):
-	print("Request completed! ", response_code, " ")
+	var browser_game = preload("res://BrowserGame.tscn")
+	print(body.get_string_from_utf8())
+	var games = JSON.parse(body.get_string_from_utf8())
+	print(games)
+	for game in games.result:
+		var game_widget = browser_game.instance()
+		print(game)
+		game_widget.apply_game(game)
+		game_widget.connect("join_game", self, "_on_browser_Start_pressed")
+		$Game_Browser/game_list.add_child(game_widget)
+		
 
 
 func _on_Find_Online_pressed():
+	$HTTPRequest_get_games.request(TRACKER + "/games?type=orbital_fortress", [], false, HTTPClient.METHOD_GET, "")
 	$Connect.hide()
 	$Game_Browser.show()
 	$Connect/ErrorLabel.text = ""
 
 
-func _on_browser_Start_pressed():
-	# TODO: Get IP from selected
-	var ip = "127.0.0.1"
+func _on_browser_Start_pressed(game):
+	print("Browser Start")
 	var player_name = $Connect/Name.text
-	gamestate.join_game(ip, player_name)
+	gamestate.join_game(game["address"], player_name)
 
 func _on_browser_Return_pressed():
 		$Game_Browser.hide()
