@@ -22,11 +22,15 @@ var target = null
 var rotation_impulse = 0.0
 var ideal_face = null
 var can_shoot = true
+var death_explo = null
 
 puppet var puppet_pos = Vector2()
 puppet var puppet_velocity = Vector2()
 puppet var puppet_rotation = 0.0
 puppet var puppet_health = 0
+
+func _init():
+	death_explo = preload("res://explosions/medium.tscn")
 
 func _ready():
 	health = max_health
@@ -60,7 +64,9 @@ func _get_vars_from_net():
 	health = puppet_health
 
 sync func destroyed():
-	print("Mook Destroyed")
+	var explo = death_explo.instance()
+	explo.position = position
+	get_parent().add_child(explo)
 	gamestate.add_score(gamestate.other_team(team), points_reward)
 	queue_free()
 	
@@ -84,7 +90,7 @@ func _find_target():
 	for node in nodes:
 		if position.distance_to(node.position) > max_target_distance:
 			break
-		if node.team != team and is_instance_valid(node):
+		if "team" in node and node.team != team and is_instance_valid(node):
 			return node
 	# By default, go after the enemy starbase
 	for node in bases:

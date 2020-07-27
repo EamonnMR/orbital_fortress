@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://explosions/explosion.gd" type="Script" id=1]
+
+[node name="AnimatedSprite" type="AnimatedSprite"]
+speed_scale = 2.0
+playing = true
+script = ExtResource( 1 )
+[connection signal="animation_finished" from="." to="." method="_on_AnimatedSprite_animation_finished"]
