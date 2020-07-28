@@ -25,9 +25,11 @@ puppet var puppet_health = 0
 puppet var puppet_is_thrusting = false
 puppet var puppet_frame_rotation = 0
 
+var death_explo = null
+
 func _init():
 	basic_shot = preload("res://ships/mooks/basic_shot.tscn")
-
+	death_explo = load("res://explosions/medium.tscn")
 sync func shoot(name, pos, direction, by_who):
 	var shot = basic_shot.instance()
 	shot.set_name(name) # Ensure unique name for the shot
@@ -60,29 +62,6 @@ func _handle_shooting():
 		for shot_emerge_point in $sprite/shot_emerge_points.get_children():
 			var pos = shot_emerge_point.get_global_position()
 			rpc("shoot", name, pos, $sprite.rotation, get_tree().get_network_unique_id())
-
-		
-
-func _rotate_to_cancel_velocity():
-	# TODO: Debug this so it works
-	var facing = _facing()
-	var ideal_facing = velocity.angle() - PI
-	print("Facing")
-	print(facing)
-	print("ideal Facing")
-	print(ideal_facing)
-	var difference = fmod(ideal_facing - facing, 2 * PI)
-	print("difference")
-	print(difference)
-	print("Verdict")
-	if difference > 0:
-		print("right")
-		return 1
-	if difference < 0:
-		print("left")
-		return -1
-	print("None")
-	return 0
 	
 func _handle_rotation(delta):
 	frame_rotation = 0
@@ -148,6 +127,9 @@ func _physics_process(delta):
 
 sync func destroyed():
 	print("Destroyed: ", name)
+	var explo = death_explo.instance()
+	explo.position = position
+	get_parent().add_child(explo)
 	gamestate.add_score(gamestate.other_team(team), points_reward)
 	queue_free()
 	if is_network_master():

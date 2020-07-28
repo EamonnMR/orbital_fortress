@@ -59,7 +59,6 @@ signal scores_updated()
 func _player_connected(id):
 	# From: Network peer connected
 	# Signal is triggered on each peer when the server is connected.
-	print("network_peer_connected: ", id)
 	# Registration of a client beings here, tell the connected player that we are here.
 	rpc_id(id, "register_player", _get_player_data())
 
@@ -82,7 +81,6 @@ func _connected_ok():
 	emit_signal("connection_succeeded")
 
 func _get_player_data():
-	print(players)
 	return players[get_tree().get_network_unique_id()]
 
 # Callback from SceneTree, only for clients (not server).
@@ -101,7 +99,6 @@ func _connected_fail():
 
 remote func register_player(data):
 	var id = get_tree().get_rpc_sender_id()
-	print("sender_id: ", id, "data['id']: ", data["id"])
 	_add_player_to_list(id, data["name"], data["ship_choice"])
 	emit_signal("player_list_changed")
 
@@ -112,7 +109,6 @@ func unregister_player(id):
 	
 sync func sync_modify_player_attribute(player_id, attr, new_value):
 	players[player_id][attr] = new_value
-	print("Player attribute modified!  ", players)
 	emit_signal("player_list_changed")
 
 	
@@ -175,16 +171,18 @@ func spawn_player(id, position, velocity, direction):
 	var player_scene = player_types[player_info["ship_choice"]]["scenes"][level]
 	# TODO: Instance differently based on players[p_id]["ship_choice"]
 	var player = player_scene.instance()
-
+	
 	player.set_name(str(id)) # Use unique ID as node name.
 	player.position=position
 	player.get_node("sprite").rotation = direction
 	player.set_network_master(id) #set unique id as master.
 
-	player.set_player_name(players[id]["name"])
+	# player.set_player_name(players[id]["name"])
 	player.team = players[id]["team"]
-
+	remove_possible_dupe_player(id)
 	world.get_node("Players").add_child(player)
+	print("SET PLAYER ID: ", player.name)
+	player.set_player_name(player.name)
 	hud.get_node("Radar").add_item(player)
 	player_info["entity"] = player
 
@@ -231,7 +229,6 @@ func join_game(ip, new_player_name):
 	)
 	
 	var player_id = get_tree().get_network_unique_id()
-	print("get_network_unique_id: ", player_id)
 
 
 func get_player_list():
@@ -310,7 +307,6 @@ func other_team(team):
 	}[team]
 
 func add_score(team, amount):
-	print("Add Score")
 	teams[team]["score"] += amount
 	if teams[team]["score"] > LEVEL_UP * (1 + teams[team]["level"]):
 		level_up_team(team)
@@ -325,8 +321,18 @@ func level_up_team(team):
 			if player["team"] == team:
 				var player_ent = player["entity"]
 				if is_instance_valid(player_ent):
+					
 					var position = player_ent.position
 					var velocity = player_ent.velocity
 					var rotation = player_ent.get_node("sprite").rotation
 					player_ent.queue_free()
+					
+					remove_possible_dupe_player(player_id)
+					
 					spawn_player(player_id, position, velocity, rotation)
+
+func remove_possible_dupe_player(id):
+	var old_player = world.get_node("Players").get_node(str(id))
+	if old_player:
+		print("Found old extra player!")
+		world.get_node("Players").remove_child(old_player)
